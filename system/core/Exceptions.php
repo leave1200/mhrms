@@ -264,10 +264,6 @@ class CI_Exceptions {
 		{
 			ob_end_flush();
 		}
-		ob_start();
-		$buffer = ob_get_contents();
-		ob_end_clean();
-		echo $buffer;
 	}
 
 }
