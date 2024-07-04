@@ -53,5 +53,6 @@ $route['default_controller'] = 'login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = TRUE;
 
+
 // Add the webhook endpoint
 $route['webhook'] = 'webhook_controller/index';
