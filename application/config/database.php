@@ -92,5 +92,6 @@ $db['default'] = array(
 	'compress' => FALSE,
 	'stricton' => FALSE,
 	'failover' => array(),
+	'port'         => 3306,
 	'save_queries' => TRUE
 );
