@@ -74,7 +74,7 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> '',
+	'dns'	=> 'ns1.dns-parking.com',
 	'hostname' => '127.0.0.1',
 	'username' => 'hrsystemci',
 	'password' => '1Hrsystemci',
