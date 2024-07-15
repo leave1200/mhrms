@@ -1,5 +1,6 @@
 <?php
 namespace App\Libraries;
+use App\Models\User;
 
 class CIAuth
 {
@@ -25,7 +26,7 @@ class CIAuth
     }
     public static function check(){
         $session = session();
-        return $session->has('log_in');
+        return $session->has('logged_in');
     }
 
     public static function forget(){
@@ -38,7 +39,11 @@ class CIAuth
         $session = session();
         if( $session->has('logged_in') ){
             if( $session->has('userdata') ){
-                return $session->get('userdata');
+               // return $session->get('userdata');
+
+               $user = new User();
+                return $user->asObject()->where('id',CIAuth::id())->first();
+
             }else{
                 return null;
             }

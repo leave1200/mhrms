@@ -1,34 +1,6 @@
-# Disable directory browsing
-Options All -Indexes
-
-# ----------------------------------------------------------------------
-# Rewrite engine
-# ----------------------------------------------------------------------
-
-RewriteEngine On
-
-# ----------------------------------------------------------------------
-# Redirect Trailing Slashes If Not A Folder...
-# ----------------------------------------------------------------------
-
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)/$ /$1 [L,R=301]
-
-# ----------------------------------------------------------------------
-# Ensure Authorization header is passed along
-# ----------------------------------------------------------------------
-
-RewriteCond %{HTTP:Authorization} .
-RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-
-# ----------------------------------------------------------------------
-# Handle Front Controller
-# ----------------------------------------------------------------------
-
-
 <ifModule mod_rewrite.c>
-    RewriteEngine on
-    RewriteCond $1 !^(index\.php|resources|robots\.txt)
+    RewriteEngine On
+
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ index.php/$1 [L]

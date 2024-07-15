@@ -54,6 +54,7 @@
 			href="src/plugins/datatables/css/responsive.bootstrap4.min.css"
 		/>
 		<link rel="stylesheet" type="text/css" href="/backend/vendors/styles/style.css" />
+		<link rel="stylesheet" href="/extra-assets/ijaboCropTool/ijaboCropTool.min.css">
 		<?= $this->renderSection('stylesheets') ?>
 	</head>
 	<body>
@@ -85,6 +86,10 @@
 		<script src="/backend/src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 		<script src="/backend/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 		<script src="/backend/vendors/scripts/dashboard3.js"></script>
+		<script src="/extra-assets/ijaboCropTool/ijaboCropTool.min.js"></script>
+		<script src="/src/plugins/sweetalert2/sweetalert2.all.js"></script>
+		<script src="/src/plugins/sweetalert2/sweet-alert.init.js"></script>
+		<script src="/backend/sweetalert.min.js"></script>
 		<?= $this->renderSection('scripts') ?>
 	</body>
 </html>

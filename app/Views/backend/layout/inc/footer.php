@@ -1,6 +1,6 @@
 <div class="footer-wrap pd-20 mb-20 card-box">
-					DeskApp - Bootstrap 4 Admin Template By
+					Develop by Mark Rebb Barsaga - DeskApp template
 					<a href="https://github.com/dropways" target="_blank"
-						>Ankit Hingarajiya</a
+						></a
 					>
 				</div>
