@@ -459,8 +459,8 @@ public function updateDesignation()
            'address' => $request->getPost('address')
        ];
 
-       $model = new EmployeeModel();
-       if ($model->update($id, $data)) {
+       $employee = new EmployeeModel();
+       if ($employee->update($id, $data)) {
            return $this->response->setJSON(['success' => true, 'message' => 'Personal details updated successfully']);
        } else {
            return $this->response->setJSON(['success' => false, 'message' => 'Failed to update personal details']);
