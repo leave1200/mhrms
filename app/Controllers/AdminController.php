@@ -447,35 +447,39 @@ public function updateDesignation()
         return view('backend/pages/employeelist',$data);
     }
    // app/Controllers/AdminController.php
-   public function updateProfilePicture()
-{
-    $request = \Config\Services::request();
-    $id = $request->getPost('id');
-    $croppedImage = $request->getPost('cropped_image'); // Get cropped image data
-
-    if ($croppedImage) {
-        // Decode base64 image
-        $imageData = base64_decode(str_replace('data:image/png;base64,', '', $croppedImage));
-        $imageName = 'profile_picture_' . $id . '.png'; // or any other naming convention
-        $imagePath = WRITEPATH . 'uploads/' . $imageName; // Adjust path as needed
-
-        // Save image to server
-        if (file_put_contents($imagePath, $imageData)) {
-            // Update database with new picture URL
-            $model = new EmployeeModel();
-            $data = ['picture' => $imageName];
-            if ($model->update($id, $data)) {
-                return $this->response->setJSON(['success' => true, 'message' => 'Profile picture updated successfully', 'new_picture_url' => base_url('uploads/' . $imageName)]);
-            } else {
-                return $this->response->setJSON(['success' => false, 'message' => 'Failed to update profile picture']);
-            }
-        } else {
-            return $this->response->setJSON(['success' => false, 'message' => 'Failed to save profile picture']);
-        }
-    } else {
-        return $this->response->setJSON(['success' => false, 'message' => 'No image data received']);
-    }
-}
+   public function updatePersonalDetail()
+   {
+       $request = \Config\Services::request();
+       $id = $request->getPost('id');
+       $firstname = $request->getPost('firstname');
+       $lastname = $request->getPost('lastname');
+       $phone = $request->getPost('phone');
+       $dob = $request->getPost('dob');
+       $address = $request->getPost('address');
+   
+       // Load the model
+       $model = new \App\Models\EmployeeModel();
+   
+       // Validate input
+       if (empty($id) || empty($firstname) || empty($lastname) || empty($phone) || empty($dob) || empty($address)) {
+           return $this->response->setJSON(['message' => 'All fields are required'])->setStatusCode(400);
+       }
+   
+       // Update data
+       $data = [
+           'firstname' => $firstname,
+           'lastname' => $lastname,
+           'phone' => $phone,
+           'dob' => $dob,
+           'address' => $address
+       ];
+   
+       if ($model->update($id, $data)) {
+           return $this->response->setJSON(['message' => 'Personal details updated successfully']);
+       } else {
+           return $this->response->setJSON(['message' => 'Failed to update personal details'])->setStatusCode(500);
+       }
+   }
 
 
    // Repeat for other sections with appropriate fields and validation
