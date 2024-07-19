@@ -54,11 +54,11 @@
 											<label class="custom-control-label" for="customCheck1">Remember</label>
 										</div>
 									</div>
-									<div class="col-6">
+									<!-- <div class="col-6">
 										<div class="forgot-password">
 											<a href="<?= route_to('admin.forget.forms') ?>">Forgot Password</a>
 										</div>
-									</div>
+									</div> -->
 								</div>
 								<div class="row">
 									<div class="col-sm-12">
