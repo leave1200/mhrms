@@ -11,14 +11,6 @@ use App\Models\EmployeeModel;
 
 class Home extends BaseController
 {
-    protected $helpers =['url','form', 'CIMail', 'CIFunctions', 'EmployeeModel'];
-    public function index(): string
-        { $data =[
-            'pageTitle'=>'Login',
-            'validation'=>'null'
-        ];
-        return view('backend/pages/auth/login', $data);
-    }
     public function index()
     {
         $employeeModel = new EmployeeModel();
