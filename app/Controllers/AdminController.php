@@ -451,35 +451,22 @@ public function updateDesignation()
    {
        $request = \Config\Services::request();
        $id = $request->getPost('id');
-       $firstname = $request->getPost('firstname');
-       $lastname = $request->getPost('lastname');
-       $phone = $request->getPost('phone');
-       $dob = $request->getPost('dob');
-       $address = $request->getPost('address');
-   
-       // Load the model
-       $model = new \App\Models\EmployeeModel();
-   
-       // Validate input
-       if (empty($id) || empty($firstname) || empty($lastname) || empty($phone) || empty($dob) || empty($address)) {
-           return $this->response->setJSON(['message' => 'All fields are required'])->setStatusCode(400);
-       }
-   
-       // Update data
        $data = [
-           'firstname' => $firstname,
-           'lastname' => $lastname,
-           'phone' => $phone,
-           'dob' => $dob,
-           'address' => $address
+           'firstname' => $request->getPost('firstname'),
+           'lastname' => $request->getPost('lastname'),
+           'phone' => $request->getPost('phone'),
+           'dob' => $request->getPost('dob'),
+           'address' => $request->getPost('address')
        ];
-   
+
+       $model = new EmployeeModel();
        if ($model->update($id, $data)) {
-           return $this->response->setJSON(['message' => 'Personal details updated successfully']);
+           return $this->response->setJSON(['success' => true, 'message' => 'Personal details updated successfully']);
        } else {
-           return $this->response->setJSON(['message' => 'Failed to update personal details'])->setStatusCode(500);
+           return $this->response->setJSON(['success' => false, 'message' => 'Failed to update personal details']);
        }
    }
+
 
 
    // Repeat for other sections with appropriate fields and validation
