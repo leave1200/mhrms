@@ -5,7 +5,13 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('home', 'Home::index');
+$routes->group('', ['filter' => 'cifilter:guest'], static function($routes) {
+    $routes->get('/', 'AuthController::loginForm', ['as' => 'admin.login.form']); // Set the main route to guest login
+    $routes->post('login', 'AuthController::loginHandler', ['as' => 'admin.login.handler']);
+    $routes->get('forget-password', 'AuthController::forgotForms', ['as' => 'admin.forget.forms']);
+    $routes->post('send_password-reset-link', 'AuthController::sendPasswordResetLink', ['as' => 'send_password_reset_link']);
+    $routes->get('password/reset/(:any)', 'AuthController::resetPassword/$1', ['as' => 'admin.reset-password']);
+});
 
 
 $routes->group('admin', static function($routes){
