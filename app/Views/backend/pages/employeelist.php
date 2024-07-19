@@ -47,7 +47,13 @@
                     <?php foreach ($employee as $index => $emp): ?>
                         <tr>
                             <td><?= $index + 1 ?></td>
-                            <td><img src="<?= $emp['picture'] ? base_url('images/users/' . htmlspecialchars($emp['picture'])) : base_url('images/users/userav-min.png') ?>" alt="Profile Picture" class="avatar-photo ci-avatar-photo" style="width: 50px; height: 50px; border-radius: 50%;"></td>
+                            <td>
+                                <a href="#" class="edit-profile-picture-btn" data-id="<?= $emp['id'] ?>">
+                                    <img src="<?= $emp['picture'] ? base_url('backend/images/users/' . htmlspecialchars($emp['picture'])) : base_url('backend/images/users/userav-min.png') ?>" alt="Profile Picture" class="avatar-photo ci-avatar-photo" style="width: 50px; height: 50px; border-radius: 50%;">
+                                    <i class="icon-copy dw dw-edit-1"></i>
+                                </a>
+                            </td>
+
                             <td><?= htmlspecialchars($emp['firstname'] . ' ' . $emp['lastname']) ?></td>
                             <td><?= htmlspecialchars($emp['address']) ?></td>
                             <td><?= htmlspecialchars($emp['dob']) ?></td>
@@ -236,142 +242,191 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editEmployeeForm">
-                    <input type="hidden" id="update_employee_id" name="id">
-                    <!-- Profile Section -->
-                        <!-- Details Section -->
-                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mb-30">
-                            <div class="card-box height-100-p overflow-hidden">
-                                <div class="profile-tab height-100-p">
-                                    <div class="tab height-100-p">
-                                        <ul class="nav nav-tabs customtab" role="tablist">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" data-toggle="tab" href="#edit_personal_details" role="tab">Personal Details</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab" href="#edit_educational_background" role="tab">Educational Background</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab" href="#edit_interview" role="tab">Interview</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab" href="#edit_remarks" role="tab">Remarks</a>
-                                            </li>
-                                        </ul>
-                                        <div class="tab-content">
-                                            <!-- Personal Details Section -->
-                                            <div class="tab-pane fade show active" id="edit_personal_details" role="tabpanel">
-                                                <div class="pd-20">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="edit_firstname">First Name</label>
-                                                                <input type="text" id="edit_firstname" name="firstname" class="form-control" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="edit_lastname">Last Name</label>
-                                                                <input type="text" id="edit_lastname" name="lastname" class="form-control" required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="edit_phone">Phone Number</label>
-                                                                <input type="text" id="edit_phone" name="phone" class="form-control" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="edit_dob">Date of Birth</label>
-                                                                <input type="text" id="edit_dob" name="dob" class="form-control date-picker" placeholder="Select Date" required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="edit_address">Address</label>
-                                                        <input type="text" id="edit_address" name="address" class="form-control" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Educational Background Section -->
-                                            <div class="tab-pane fade" id="edit_educational_background" role="tabpanel">
-                                                <div class="pd-20">
-                                                    <div class="form-group">
-                                                        <label for="edit_p_school">Primary School Attended</label>
-                                                        <input type="text" id="edit_p_school" name="p_school" class="form-control" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="edit_s_school">Secondary School Attended</label>
-                                                        <input type="text" id="edit_s_school" name="s_school" class="form-control" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="edit_t_school">Tertiary School Attended</label>
-                                                        <input type="text" id="edit_t_school" name="t_school" class="form-control" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Interview Section -->
-                                            <div class="tab-pane fade" id="edit_interview" role="tabpanel">
-                                                <div class="pd-20">
-                                                    <div class="form-group">
-                                                        <label for="edit_interview_for">Interview For</label>
-                                                        <input type="text" id="edit_interview_for" name="interview_for" class="form-control" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="edit_interview_type">Interview Type</label>
-                                                        <select id="edit_interview_type" name="interview_type" class="form-control" required>
-                                                            <option value="Normal">Normal</option>
-                                                            <option value="Difficult">Difficult</option>
-                                                            <option value="Hard">Hard</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="edit_interview_date">Interview Date</label>
-                                                        <input type="text" id="edit_interview_date" name="interview_date" class="form-control date-picker" placeholder="Select Date" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="edit_interview_time">Interview Time</label>
-                                                        <input type="text" id="edit_interview_time" name="interview_time" class="form-control time-picker" placeholder="Select Time" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Remarks Section -->
-                                            <div class="tab-pane fade" id="edit_remarks" role="tabpanel">
-                                                <div class="pd-20">
-                                                    <div class="form-group">
-                                                        <label for="edit_behaviour">Behaviour</label>
-                                                        <textarea id="edit_behaviour" name="behaviour" class="form-control" rows="3" required></textarea>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="edit_result">Result</label>
-                                                        <select id="edit_result" name="result" class="form-control" required>
-                                                            <option value="Pending">Pending</option>
-                                                            <option value="Hired">Hired</option>
-                                                            <option value="Rejected">Rejected</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="edit_comment">Comments</label>
-                                                        <textarea id="edit_comment" name="comment" class="form-control" rows="3"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="personal-details-tab" data-toggle="tab" href="#edit_personal_details" role="tab" aria-controls="personal-details" aria-selected="true">Personal Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="educational-background-tab" data-toggle="tab" href="#edit_educational_background" role="tab" aria-controls="educational-background" aria-selected="false">Educational Background</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="interview-tab" data-toggle="tab" href="#edit_interview" role="tab" aria-controls="interview" aria-selected="false">Interview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="remarks-tab" data-toggle="tab" href="#edit_remarks" role="tab" aria-controls="remarks" aria-selected="false">Remarks</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <!-- Personal Details Form -->
+                    <div class="tab-pane fade show active" id="edit_personal_details" role="tabpanel" aria-labelledby="personal-details-tab">
+                        <form id="editPersonalDetailsForm">
+                            <input type="hidden" id="update_employee_id" name="id">
+                            <div class="pd-20">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="edit_firstname">First Name</label>
+                                            <input type="text" id="edit_firstname" name="firstname" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="edit_lastname">Last Name</label>
+                                            <input type="text" id="edit_lastname" name="lastname" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="edit_phone">Phone Number</label>
+                                            <input type="text" id="edit_phone" name="phone" class="form-control" pattern="\d*" maxlength="11" required title="Phone number should be numeric and up to 11 digits">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="edit_dob">Date of Birth</label>
+                                            <input type="text" id="edit_dob" name="dob" class="form-control date-picker" placeholder="Select Date" required>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="edit_address">Address</label>
+                                    <input type="text" id="edit_address" name="address" class="form-control" required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary" id="updatePersonalDetailsBtn">Update Personal Details</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
 
-                    <!-- Submit Button -->
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="updateEmployeeBtn">Update Employee</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <!-- Educational Background Form -->
+                    <div class="tab-pane fade" id="edit_educational_background" role="tabpanel" aria-labelledby="educational-background-tab">
+                        <form id="editEducationalBackgroundForm">
+                            <input type="hidden" id="update_employee_id" name="id">
+                            <div class="pd-20">
+                                <div class="form-group">
+                                    <label for="edit_p_school">Primary School Attended</label>
+                                    <input type="text" id="edit_p_school" name="p_school" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit_s_school">Secondary School Attended</label>
+                                    <input type="text" id="edit_s_school" name="s_school" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit_t_school">Tertiary School Attended</label>
+                                    <input type="text" id="edit_t_school" name="t_school" class="form-control" required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary" id="updateEducationalBackgroundBtn">Update Educational Background</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </form>
+
+                    <!-- Interview Form -->
+                    <div class="tab-pane fade" id="edit_interview" role="tabpanel" aria-labelledby="interview-tab">
+                        <form id="editInterviewForm">
+                            <input type="hidden" id="update_employee_id" name="id">
+                            <div class="pd-20">
+                                <div class="form-group">
+                                    <label for="edit_interview_for">Interview For</label>
+                                    <input type="text" id="edit_interview_for" name="interview_for" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit_interview_type">Interview Type</label>
+                                    <select id="edit_interview_type" name="interview_type" class="form-control" required>
+                                        <option value="Normal">Normal</option>
+                                        <option value="Difficult">Difficult</option>
+                                        <option value="Hard">Hard</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit_interview_date">Interview Date</label>
+                                    <input type="text" id="edit_interview_date" name="interview_date" class="form-control date-picker" placeholder="Select Date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit_interview_time">Interview Time</label>
+                                    <input type="text" id="edit_interview_time" name="interview_time" class="form-control time-picker" placeholder="Select Time" required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary" id="updateInterviewBtn">Update Interview</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Remarks Form -->
+                    <div class="tab-pane fade" id="edit_remarks" role="tabpanel" aria-labelledby="remarks-tab">
+                        <form id="editRemarksForm">
+                            <input type="hidden" id="update_employee_id" name="id">
+                            <div class="pd-20">
+                                <div class="form-group">
+                                    <label for="edit_behaviour">Behaviour</label>
+                                    <input type="text" id="edit_behaviour" name="behaviour" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit_result">Result</label>
+                                    <input type="text" id="edit_result" name="result" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit_comment">Comment</label>
+                                    <textarea id="edit_comment" name="comment" class="form-control" rows="3" required></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary" id="updateRemarksBtn">Update Remarks</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
+</div>
+<!-- Edit Profile Picture Modal -->
+<div class="modal fade" id="editProfilePictureModal" tabindex="-1" role="dialog" aria-labelledby="editProfilePictureModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProfilePictureModalLabel">Edit Profile Picture</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editProfilePictureForm" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <input type="hidden" id="update_employee_id_picture" name="id" value="">
+                    <div class="form-group">
+                        <label for="profile_picture">Upload Profile Picture</label>
+                        <input type="file" class="form-control" id="profile_picture" name="profile_picture">
+                        <img id="image" style="display:none;"/>
+                        <div class="preview" id="preview"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 
+
+
+
+
+
+
+<!-- Cropper CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+
+<!-- Cropper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
@@ -436,94 +491,213 @@
 
 </script>
 <script>
+     $(document).ready(function() {
+    // Handle edit button clicks for employees
+    $('.edit-employee-btn').on('click', function() {
+        // Retrieve data attributes from the button
+        var id = $(this).data('id');
+        var firstname = $(this).data('firstname');
+        var lastname = $(this).data('lastname');
+        var phone = $(this).data('phone');
+        var dob = $(this).data('dob');
+        var address = $(this).data('address');
+        var p_school = $(this).data('p_school');
+        var s_school = $(this).data('s_school');
+        var t_school = $(this).data('t_school');
+        var interview_for = $(this).data('interview_for');
+        var interview_type = $(this).data('interview_type');
+        var interview_date = $(this).data('interview_date');
+        var interview_time = $(this).data('interview_time');
+        var behaviour = $(this).data('behaviour');
+        var result = $(this).data('result');
+        var comment = $(this).data('comment');
+
+        // Populate the modal form fields with the retrieved data
+        $('#update_employee_id').val(id);
+        $('#edit_firstname').val(firstname);
+        $('#edit_lastname').val(lastname);
+        $('#edit_phone').val(phone);
+        $('#edit_dob').val(dob);
+        $('#edit_address').val(address);
+        $('#edit_p_school').val(p_school);
+        $('#edit_s_school').val(s_school);
+        $('#edit_t_school').val(t_school);
+        $('#edit_interview_for').val(interview_for);
+        $('#edit_interview_type').val(interview_type);
+        $('#edit_interview_date').val(interview_date);
+        $('#edit_interview_time').val(interview_time);
+        $('#edit_behaviour').val(behaviour);
+        $('#edit_result').val(result);
+        $('#edit_comment').val(comment);
+
+        // Show the edit employee modal
+        $('#editEmployeeModal').modal('show');
+    });
+});
+
+
+</script>
+<script>
     $(document).ready(function() {
-        // Handle edit button clicks for employees
-        $('.edit-employee-btn').on('click', function() {
-            // Retrieve data attributes from the button
-            var id = $(this).data('id');
-            var firstname = $(this).data('firstname');
-            var lastname = $(this).data('lastname');
-            var phone = $(this).data('phone');
-            var dob = $(this).data('dob');
-            var address = $(this).data('address');
-            var p_school = $(this).data('p_school');
-            var s_school = $(this).data('s_school');
-            var t_school = $(this).data('t_school');
-            var interview_for = $(this).data('interview_for');
-            var interview_type = $(this).data('interview_type');
-            var interview_date = $(this).data('interview_date');
-            var interview_time = $(this).data('interview_time');
-            var behaviour = $(this).data('behaviour');
-            var result = $(this).data('result');
-            var comment = $(this).data('comment');
+    // Function to handle personal details form submission
+    function submitPersonalDetailsForm() {
+        $('#editPersonalDetailsForm').on('submit', function(e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
 
-            // Populate the modal form fields with the retrieved data
-            $('#update_employee_id').val(id);
-            $('#edit_firstname').val(firstname);
-            $('#edit_lastname').val(lastname);
-            $('#edit_phone').val(phone);
-            $('#edit_dob').val(dob);
-            $('#edit_address').val(address);
-            $('#edit_p_school').val(p_school);
-            $('#edit_s_school').val(s_school);
-            $('#edit_t_school').val(t_school);
-            $('#edit_interview_for').val(interview_for);
-            $('#edit_interview_type').val(interview_type);
-            $('#edit_interview_date').val(interview_date);
-            $('#edit_interview_time').val(interview_time);
-            $('#edit_behaviour').val(behaviour);
-            $('#edit_result').val(result);
-            $('#edit_comment').val(comment);
-
-            // Show the edit employee modal
-            $('#editEmployeeModal').modal('show');
-        });
-        $(document).ready(function() {
-        $('#updateEmployeeBtn').on('click', function(e) {
-            e.preventDefault(); // Prevent default form submission
-            var form = $(this);
-
-            // Validate form fields (if needed)
-            var formData = $(this).serialize(); // Serialize form data
-            
-            
-            // AJAX call to submit form data
             $.ajax({
                 type: 'POST',
-                url: '<?= route_to('update_employee') ?>', // Adjust URL as needed
+                url: 'update_personal_details',
                 data: formData,
-                dataType: 'json',
                 success: function(response) {
-                    if (response.status === 'success') {
-                        $('#editEmployeeModal').modal('hide'); // Close modal on success
+                    if (response.success) {
                         Swal.fire({
                             icon: 'success',
                             title: 'Success',
-                            text: response.message
-                        }).then(() => {
-                            location.reload(); // Reload the page or update UI as needed
+                            text: response.message,
                         });
+                        $('#editEmployeeModal').modal('hide');
+                        location.reload();
                     } else {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: response.message
+                            text: response.message,
                         });
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.error('AJAX Error:', error);
-                    console.log(xhr.responseText); // Log detailed error response
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'An error occurred while processing your request.'
+                        text: xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred',
                     });
                 }
             });
         });
-    });
-    });
+    }
+
+    // Function to handle educational background form submission
+    function submitEducationalBackgroundForm() {
+        $('#editEducationalBackgroundForm').on('submit', function(e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: 'update_educational_background',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.message,
+                        });
+                        $('#editEmployeeModal').modal('hide');
+                        location.reload();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message,
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred',
+                    });
+                }
+            });
+        });
+    }
+
+    // Function to handle interview form submission
+    function submitInterviewForm() {
+        $('#editInterviewForm').on('submit', function(e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: 'update_interview',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.message,
+                        });
+                        $('#editEmployeeModal').modal('hide');
+                        location.reload();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message,
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred',
+                    });
+                }
+            });
+        });
+    }
+
+    // Function to handle remarks form submission
+    function submitRemarksForm() {
+        $('#editRemarksForm').on('submit', function(e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: 'update_remarks',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.message,
+                        });
+                        $('#editEmployeeModal').modal('hide');
+                        location.reload();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message,
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred',
+                    });
+                }
+            });
+        });
+    }
+
+    // Call the submit functions
+    submitPersonalDetailsForm();
+    submitEducationalBackgroundForm();
+    submitInterviewForm();
+    submitRemarksForm();
+});
+
 </script>
 
 
@@ -661,10 +835,104 @@ function deleteEmployee(id) {
     });
 }
 </script>
+<script>
+$(document).ready(function() {
+    var cropper;
+    var $image = $('#image');
+    var $preview = $('#preview');
+
+    // Handle edit button clicks for profile picture
+    $('.edit-profile-picture-btn').on('click', function() {
+        var id = $(this).data('id');
+        $('#update_employee_id_picture').val(id);
+        $('#editProfilePictureModal').modal('show');
+    });
+
+    // Handle file input change
+    $('#profile_picture').on('change', function(event) {
+        var files = event.target.files;
+        var done = function(url) {
+            $image.attr('src', url).show();
+            $preview.show();
+            cropper = new Cropper($image[0], {
+                aspectRatio: 1,
+                viewMode: 1,
+                preview: '.preview'
+            });
+        };
+        var reader;
+        var file;
+
+        if (files && files.length > 0) {
+            file = files[0];
+
+            if (URL) {
+                done(URL.createObjectURL(file));
+            } else if (FileReader) {
+                reader = new FileReader();
+                reader.onload = function() {
+                    done(reader.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+
+    // Handle form submission
+    $('#editProfilePictureForm').on('submit', function(e) {
+        e.preventDefault();
+
+        var canvas;
+        var croppedImage;
+
+        if (cropper) {
+            canvas = cropper.getCroppedCanvas({
+                width: 500,
+                height: 500,
+            });
+
+            canvas.toBlob(function(blob) {
+                var formData = new FormData();
+                formData.append('profile_picture', blob);
+                formData.append('id', $('#update_employee_id_picture').val());
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'update_profile_picture', // Ensure this URL matches your route
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: response.message,
+                            });
+                            $('#editProfilePictureModal').modal('hide');
+                            $('.avatar-photo').attr('src', response.new_picture_url);
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message,
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred',
+                        });
+                    }
+                });
+            }, 'image/png');
+        }
+    });
+});
 
 
-
-
-
+</script>
 
 <?= $this->endSection() ?>

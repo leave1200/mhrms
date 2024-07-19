@@ -30,7 +30,7 @@ class AdminController extends BaseController
             'employeeCount' => $employeeCount,
             'designationCount' => $designationCount
         ];
-        return view('backend/pages/home', $data);
+        return view('backend\pages\home', $data);
     }
 
     public function logoutHandler(){
@@ -446,69 +446,130 @@ public function updateDesignation()
         ];
         return view('backend/pages/employeelist',$data);
     }
-    public function updateEmployee()
-    {
-        $request = service('request');
-        $employeeModel = new EmployeeModel(); // Adjust with your actual Employee model
-    
-        if ($request->isAJAX()) {
-            $id = $request->getVar('id');
-            $firstname = $request->getVar('firstname');
-            $lastname = $request->getVar('lastname');
-            $email = $request->getVar('email');
-            $phone = $request->getVar('phone');
-            $dob = $request->getVar('dob');
-            $address = $request->getVar('address');
-            $p_school = $request->getVar('p_school');
-            $s_school = $request->getVar('s_school');
-            $t_school = $request->getVar('t_school');
-            $interview_for = $request->getVar('interview_for');
-            $interview_type = $request->getVar('interview_type');
-            $interview_date = $request->getVar('interview_date');
-            $interview_time = $request->getVar('interview_time');
-            $behaviour = $request->getVar('behaviour');
-            $result = $request->getVar('result');
-            $comment = $request->getVar('comment');
-            $picture = $request->getVar('picture');
-    
-            // Validate required fields
-            if (!empty($id) && !empty($firstname) && !empty($lastname) && !empty($email) && !empty($phone) && !empty($dob) && !empty($address) && !empty($p_school) && !empty($s_school) && !empty($t_school) && !empty($interview_for) && !empty($interview_type) && !empty($interview_date) && !empty($interview_time) && !empty($behaviour) && !empty($result) && !empty($comment) && !empty($picture)) {
-                // Prepare data to update
-                $data = [
-                    'firstname' => $firstname,
-                    'lastname' => $lastname,
-                    'email' => $email,
-                    'phone' => $phone,
-                    'dob' => $dob,
-                    'address' => $address,
-                    'p_school' => $p_school,
-                    's_school' => $s_school,
-                    't_school' => $t_school,
-                    'interview_for' => $interview_for,
-                    'interview_type' => $interview_type,
-                    'interview_date' => $interview_date,
-                    'interview_time' => $interview_time,
-                    'behaviour' => $behaviour,
-                    'result' => $result,
-                    'comment' => $comment,
-                    'picture' => $picture,
-                ];
-    
-                // Update the employee
-                if ($employeeModel->update($id,['firstname' => $firstname],['lastname' => $lastname],['email' => $email],['phone' => $phone],['dob' => $dob],['address' => $address],['p_school' => $p_school],['s_school' => $school],['t_school' => $t_school],['interview_for' => $interview_for],['interview_type' => $interview_type],['interview_date' => $interview_date],['interview_time' => $interview_time],['behaviour' => $behaviour],['result' => $result],['comment' => $comment])) {
-                    return $this->response->setJSON(['status' => 'success', 'message' => 'Employee updated successfully']);
-                } else {
-                    return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to update Employee'], 500);
-                }
+   // app/Controllers/AdminController.php
+   public function updateProfilePicture()
+{
+    $request = \Config\Services::request();
+    $id = $request->getPost('id');
+    $croppedImage = $request->getPost('cropped_image'); // Get cropped image data
+
+    if ($croppedImage) {
+        // Decode base64 image
+        $imageData = base64_decode(str_replace('data:image/png;base64,', '', $croppedImage));
+        $imageName = 'profile_picture_' . $id . '.png'; // or any other naming convention
+        $imagePath = WRITEPATH . 'uploads/' . $imageName; // Adjust path as needed
+
+        // Save image to server
+        if (file_put_contents($imagePath, $imageData)) {
+            // Update database with new picture URL
+            $model = new EmployeeModel();
+            $data = ['picture' => $imageName];
+            if ($model->update($id, $data)) {
+                return $this->response->setJSON(['success' => true, 'message' => 'Profile picture updated successfully', 'new_picture_url' => base_url('uploads/' . $imageName)]);
             } else {
-                return $this->response->setJSON(['status' => 'error', 'message' => 'Invalid data'], 400);
+                return $this->response->setJSON(['success' => false, 'message' => 'Failed to update profile picture']);
             }
         } else {
-            return $this->response->setStatusCode(403)->setJSON(['status' => 'error', 'message' => 'Unauthorized access']);
+            return $this->response->setJSON(['success' => false, 'message' => 'Failed to save profile picture']);
         }
+    } else {
+        return $this->response->setJSON(['success' => false, 'message' => 'No image data received']);
     }
-    
+}
 
+
+   // Repeat for other sections with appropriate fields and validation
+   public function updateEducationalBackground()
+   {
+       $request = \Config\Services::request();
+       $id = $request->getPost('id');
+       $data = [
+           'p_school' => $request->getPost('p_school'),
+           's_school' => $request->getPost('s_school'),
+           't_school' => $request->getPost('t_school')
+       ];
+
+       $employee = new EmployeeModel();
+       if ($employee->update($id, $data)) {
+           return $this->response->setJSON(['success' => true, 'message' => 'Educational background updated successfully']);
+       } else {
+           return $this->response->setJSON(['success' => false, 'message' => 'Failed to update educational background']);
+       }
+   }
+
+   public function updateInterview()
+   {
+       $request = \Config\Services::request();
+       $id = $request->getPost('id');
+       $data = [
+           'interview_for' => $request->getPost('interview_for'),
+           'interview_type' => $request->getPost('interview_type'),
+           'interview_date' => $request->getPost('interview_date'),
+           'interview_time' => $request->getPost('interview_time')
+       ];
+
+       $employee = new EmployeeModel();
+       if ($employee->update($id, $data)) {
+           return $this->response->setJSON(['success' => true, 'message' => 'Interview details updated successfully']);
+       } else {
+           return $this->response->setJSON(['success' => false, 'message' => 'Failed to update interview details']);
+       }
+   }
+
+   public function updateRemarks()
+   {
+       $request = \Config\Services::request();
+       $id = $request->getPost('id');
+       $data = [
+           'behaviour' => $request->getPost('behaviour'),
+           'result' => $request->getPost('result'),
+           'comment' => $request->getPost('comment')
+       ];
+
+       $employee = new EmployeeModel();
+       if ($employee->update($id, $data)) {
+           return $this->response->setJSON(['success' => true, 'message' => 'Remarks updated successfully']);
+       } else {
+           return $this->response->setJSON(['success' => false, 'message' => 'Failed to update remarks']);
+       }
+   }
+
+    
+   public function update_profile_picture()
+   {
+       $id = $this->request->getPost('id');
+       $employeeModel = new EmployeeModel();
+   
+       if ($imagefile = $this->request->getFile('profile_picture')) {
+           if ($imagefile->isValid() && !$imagefile->hasMoved()) {
+               $newName = $imagefile->getRandomName();
+               $imagefile->move(ROOTPATH . 'public/backend/images/users', $newName);
+   
+               $data = ['picture' => $newName];
+   
+               if ($employeeModel->update($id, $data)) {
+                   return $this->response->setJSON([
+                       'success' => true,
+                       'message' => 'Profile picture updated successfully',
+                       'new_picture_url' => base_url('backend/images/users/' . $newName)
+                   ]);
+               } else {
+                   return $this->response->setJSON([
+                       'success' => false,
+                       'message' => 'Failed to update profile picture'
+                   ]);
+               }
+           }
+       }
+   
+       return $this->response->setJSON([
+           'success' => false,
+           'message' => 'Invalid image file'
+       ]);
+   }
+   
+
+   
 
 
     public function getEmployee()
