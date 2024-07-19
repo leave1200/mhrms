@@ -30,7 +30,7 @@ class AdminController extends BaseController
             'employeeCount' => $employeeCount,
             'designationCount' => $designationCount
         ];
-        return view('backend\pages\home', $data);
+        return view('backend/pages/home', $data);
     }
 
     public function logoutHandler(){
