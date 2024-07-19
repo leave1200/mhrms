@@ -450,7 +450,7 @@
             dataType: 'json',
             success: function(response) {
 				if(response) {
-				$('#view_picture').attr('src', response.picture ? '<?= base_url('images/users/') ?>' + response.picture : '<?= base_url('images/users/employee.png') ?>');
+                 $('#view_picture').attr('src', response.picture ? '<?= base_url('backend/images/users/') ?>' + response.picture : '<?= base_url('backend/images/users/employee.png') ?>');
                 $('#view_firstname').val(response.firstname);
 				$('#view_lastname').val(response.lastname);
                 $('#view_phone').val(response.phone);
