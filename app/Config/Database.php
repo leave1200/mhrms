@@ -29,7 +29,7 @@ class Database extends Config
         'hostname'     => '127.0.0.1',
         'username'     => 'u510162695_hrsystemci',
         'password'     => 'u510162695_hrsystemci',
-        'database'     => 'hrmo',
+        'database'     => '1Hrsystemci',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,
