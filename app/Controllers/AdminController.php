@@ -653,15 +653,19 @@ public function updateDesignation()
     {
         $employeeModel = new EmployeeModel();
         $employee = $employeeModel->find($id);
-
+    
         if (!$employee) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Employee with ID $id not found");
         }
-
+    
+        // Prepare the picture URL
+        $baseURL = base_url('backend/images/users/');
+        $employee['picture_url'] = $employee['picture'] ? $baseURL . htmlspecialchars($employee['picture']) : $baseURL . 'userav-min.png';
+    
         $data = [
             'employee' => $employee,
         ];
-
+    
         return view('backend/pages/print', $data);
     }
 

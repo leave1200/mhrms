@@ -29,12 +29,11 @@
         }
         .profile-picture {
             text-align: center;
-            margin-bottom: 20px;
         }
         .profile-picture img {
             width: 150px;
             height: 150px;
-            border-radius: 50%;
+            border-radius: 10%;
             border: 1px solid #ddd;
         }
         .details {
@@ -79,9 +78,9 @@
         <div class="header">
             <h1>Employee Bio Data</h1>
         </div>
-        <div class="profile-picture">
-            <img src="<?= $employee['picture'] ? base_url('images/users/' . htmlspecialchars($employee['picture'])) : base_url('images/users/userav-min.png') ?>" alt="Profile Picture">
-        </div>
+            <div class="profile-picture">
+            <img src="<?= htmlspecialchars($employee['picture_url']) ?>" alt="Profile Picture">
+         </div>
         <div class="details">
             <div class="section-title">Personal Information</div>
             <dl>
