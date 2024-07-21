@@ -55,6 +55,25 @@
 			src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2973766580778258"
 			crossorigin="anonymous"
 		></script>
+		<style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* Full viewport height */
+            overflow: hidden;
+            position: relative;
+            background-color: #00aaff; /* Background color */
+        }
+
+        .curved-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            z-index: -1; /* Make sure it stays in the background */
+        }
+    </style>
         <?= $this->renderSection('stylesheet') ?>
 	</head>
 	<body class="login-page">
