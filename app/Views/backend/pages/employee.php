@@ -41,7 +41,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="lastname">Last Name :</label>
-                                    <input type="text" class="form-control" id="lastname" name="lastname" required>
+                                    <input type="text" class="form-control" id="lastname" name="lastname" required/>
                                 </div>
                             </div>
                         </div>
@@ -49,13 +49,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="email">Email Address :</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <input type="email" class="form-control" id="email" name="email" required/>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">Phone Number :</label>
-                                    <input type="text" class="form-control" id="phone" name="phone"  pattern="\d{1,11}" maxlength="11" title="Please enter a valid phone number (only digits, up to 11 digits)" required>
+                                    <input type="text" class="form-control" id="phone" name="phone"  pattern="\d{1,11}" maxlength="11" title="Please enter a valid phone number (only digits, up to 11 digits)" required/>
                                 </div>
                             </div>
                         </div>
@@ -63,13 +63,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                 <label for="address">Address :</label>
-                                <input type="text" class="form-control" id="address" name="address" required>
+                                <input type="text" class="form-control" id="address" name="address" required/>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="dob">Date of Birth :</label>
-                                    <input type="text" class="form-control date-picker" id="dob" name="dob" placeholder="Select Date" required>
+                                    <input type="text" class="form-control date-picker" id="dob" name="dob" placeholder="Select Date" required/>
                                 </div>
                             </div>
                         </div>
@@ -80,19 +80,19 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="p_school">Primary School Attended:</label>
-                                    <input type="text" class="form-control" id="p_school" name="p_school" required>
+                                    <input type="text" class="form-control" id="p_school" name="p_school" required/>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="s_school">Secondary School Attended :</label>
-                                    <input type="text" class="form-control" id="s_school" name="s_school" required>
+                                    <input type="text" class="form-control" id="s_school" name="s_school" required/>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="t_school">Tertiary School Attended:</label>
-                                    <input type="text" class="form-control" id="t_school" name="t_school" required>
+                                    <input type="text" class="form-control" id="t_school" name="t_school" required/>
                                 </div>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="interview_for">Interview For :</label>
-                                    <input type="text" class="form-control" id="interview_for" name="interview_for" required>
+                                    <input type="text" class="form-control" id="interview_for" name="interview_for" required/>
                                 </div>
                                 <div class="form-group">
                                     <label for="interview_type">Interview Type :</label>
@@ -126,7 +126,7 @@
 													placeholder="Select time"
 													type="text"
                                                     name="interview_time"
-												>
+												/>
 											</div>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="behaviour">Behaviour :</label>
-                                    <input type="text" class="form-control" id="behaviour" name="behaviour" reuired>
+                                    <input type="text" class="form-control" id="behaviour" name="behaviour" reuired/>
                                 </div>
                                 <div class="form-group">
                                     <label for="result">Result :</label>
