@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    $('#phone').on('input', function() {
+        this.value = this.value.replace(/\D/g, '').substring(0, 11);
+    });
     $(".tab-wizard").steps({
         headerTag: "h5",
         bodyTag: "section",
