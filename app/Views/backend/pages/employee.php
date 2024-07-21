@@ -1,5 +1,8 @@
 <?= $this->extend('backend/layout/pages-layout') ?>
 <script src="/backend/jquery-3.6.0.min.js"></script>
+<script src="/backend/src/plugins/apexcharts/apexcharts.min.js"></script>
+<link rel="preload" href="/backend/vendors/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" type="font/woff2" crossorigin="anonymous">
+
 <?= $this->section('content') ?>
 <div class="page-header">
     <div class="row">

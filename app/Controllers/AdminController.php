@@ -354,85 +354,71 @@ public function updateDesignation()
 
     public function saveEmployee()
     {
-        $request = service('request'); // Get the request object
-        $employeeModel = new EmployeeModel();
-    
-        if ($request->getMethod() === 'post') {
-            // Validation rules
-            $rules = [
-                'firstname' => 'required',
-                'lastname' => 'required',
-                'email' => 'required|valid_email',
-                'phone' => 'required',
-                'address' => 'required',
-                'dob' => 'required',
-                'p_school' => 'required',
-                's_school' => 'required',
-                't_school' => 'required',
-                'interview_for' => 'required',
-                'interview_type' => 'required',
-                'interview_date' => 'required',
-                'interview_time' => 'required',
-                'behaviour' => 'required',
-                'result' => 'required',
-                // Add other validation rules here
-            ];
-    
-            if (!$this->validate($rules)) {
-                return $this->response->setJSON([
-                    'status' => 'error',
-                    'message' => $this->validator->getErrors(),
-                ]);
-            }
-    
-            // Retrieve POST data
-            $data = [
-                'firstname' => $request->getPost('firstname'),
-                'lastname' => $request->getPost('lastname'),
-                'email' => $request->getPost('email'),
-                'phone' => $request->getPost('phone'),
-                'address' => $request->getPost('address'),
-                'dob' => $request->getPost('dob'),
-                'p_school' => $request->getPost('p_school'),
-                's_school' => $request->getPost('s_school'),
-                't_school' => $request->getPost('t_school'),
-                'interview_for' => $request->getPost('interview_for'),
-                'interview_type' => $request->getPost('interview_type'),
-                'interview_date' => $request->getPost('interview_date'),
-                'interview_time' => $request->getPost('interview_time'),
-                'behaviour' => $request->getPost('behaviour'),
-                'result' => $request->getPost('result'),
-                'comment' => $request->getPost('comment'),
-            ];
-    
-            // Handle file upload
-            $file = $request->getFile('user_profile_file');
-            if ($file && $file->isValid()) {
-                $uploadPath = WRITEPATH . 'uploads/';
-                $fileName = $file->getName();
-                $file->move($uploadPath, $fileName);
-                $data['profile_picture'] = 'uploads/' . $fileName;
-            }
-    
-            // Insert the data
-            if ($employeeModel->insert($data)) {
-                return $this->response->setJSON([
-                    'status' => 'success',
-                    'message' => 'Employee added successfully.',
-                ]);
-            } else {
-                return $this->response->setJSON([
-                    'status' => 'error',
-                    'message' => 'Failed to add employee.',
-                ]);
-            }
-        }
-    
-        return $this->response->setJSON([
-            'status' => 'error',
-            'message' => 'Invalid request.',
-        ]);
-    }
+       // Get the request instance
+       $request = \Config\Services::request();
+
+       // Validate the incoming data
+       $validation = \Config\Services::validation();
+       $validation->setRules([
+           'firstname' => 'required',
+           'lastname' => 'required',
+           'email' => 'required|valid_email',
+           'phone' => 'required',
+           'address' => 'required',
+           'dob' => 'required',
+           'p_school' => 'required',
+           's_school' => 'required',
+           't_school' => 'required',
+           'interview_for' => 'required',
+           'interview_type' => 'required',
+           'interview_date' => 'required',
+           'interview_time' => 'required',
+           'behaviour' => 'required',
+           'result' => 'required',
+           'comment' => 'required'
+       ]);
+
+       if (!$validation->withRequest($request)->run()) {
+           return $this->response->setJSON([
+               'status' => 'error',
+               'message' => 'Validation failed',
+               'errors' => $validation->getErrors()
+           ]);
+       }
+
+       // If validation passes, save the data to the database
+       $employeeModel = new EmployeeModel();
+       $data = [
+           'firstname' => $request->getPost('firstname'),
+           'lastname' => $request->getPost('lastname'),
+           'email' => $request->getPost('email'),
+           'phone' => $request->getPost('phone'),
+           'address' => $request->getPost('address'),
+           'dob' => $request->getPost('dob'),
+           'p_school' => $request->getPost('p_school'),
+           's_school' => $request->getPost('s_school'),
+           't_school' => $request->getPost('t_school'),
+           'interview_for' => $request->getPost('interview_for'),
+           'interview_type' => $request->getPost('interview_type'),
+           'interview_date' => $request->getPost('interview_date'),
+           'interview_time' => $request->getPost('interview_time'),
+           'behaviour' => $request->getPost('behaviour'),
+           'result' => $request->getPost('result'),
+           'comment' => $request->getPost('comment')
+       ];
+
+       if ($employeeModel->save($data)) {
+           return $this->response->setJSON([
+               'status' => 'success',
+               'message' => 'Employee added successfully'
+           ]);
+       } else {
+           return $this->response->setJSON([
+               'status' => 'error',
+               'message' => 'Failed to save employee data'
+           ]);
+       }
+   }
     
     
     public function employeelist()
