@@ -35,7 +35,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="firstname">First Name :</label>
-                                    <input type="text" class="form-control" id="firstname" name="firstname" required>
+                                    <input type="text" class="form-control" id="firstname" name="firstname" required/>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -55,7 +55,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">Phone Number :</label>
-                                    <input type="text" class="form-control" id="phone" name="phone"  pattern="\d{1,11}" maxlength="11" title="Please enter a valid phone number (only digits, up to 11 digits)" required/>
+                                    <input type="text" class="form-control" id="phone" name="phone" required/>
                                 </div>
                             </div>
                         </div>
