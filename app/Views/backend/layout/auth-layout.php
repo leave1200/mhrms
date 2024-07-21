@@ -63,7 +63,7 @@
 				class="container-fluid d-flex justify-content-between align-items-center">
 				<div class="brand-logo">
 					<a href="login.html">
-						<img src="/backend/extra-assets/img/mad.png" alt="" />
+						<img src="/extra-assets/img/madridejos.png" alt="" />
 					</a>
 				</div>
 				 <div class="login-menu">
@@ -72,6 +72,9 @@
                 
 			</div>
 		</div>
+		<svg class="curved-background" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path fill="white" d="M0,-10 C40,40 0,100 0,100 L0,100 L100,100 L100,30 Z"></path>
+    </svg>
 		<div
 			class="login-wrap d-flex align-items-center flex-wrap justify-content-center"
 		>
