@@ -43,11 +43,13 @@ $routes->group('admin', static function($routes){
         $routes->get('employee_report','AdminController::employee_report',['as'=>'admin.employee_report']);
         $routes->post('employee_view', 'AdminController::getEmployee',['as' => 'employee_view']);
         $routes->post('delete_employee', 'AdminController::deleteEmployee', ['as' => 'delete_employee']);
-        $routes->post('update_personal_details', 'AdminController::updatePersonalDetail', ['as' => 'update_personal_details']);
-        $routes->post('update_educational_background', 'AdminController::updateEducationalBackground', ['as' => 'uppdate_educational_backgroud']);
-        $routes->post('update_interview', 'AdminController::updateInterview', ['as' => 'update_interview']);
-        $routes->post('update_remarks', 'AdminController::updateRemarks', ['as' => 'update_remarks']);
         $routes->post('update_profile_picture', 'AdminController::update_profile_picture', ['as' => 'update_profile_picture']);
+        $routes->post('update_employee', 'AdminController::update_employee');
+        $routes->post('update_personal_details', 'AdminController::updatePersonalDetail',['as' => 'update_personal_details']);
+        $routes->post('update_educational_background', 'AdminController::updateEducationalBackground',['as' => 'update_educational_background']);
+        $routes->post('update_interview', 'AdminController::updateInterview',['as' => 'update_interview']);
+        $routes->post('update_remarks', 'AdminController::updateRemarks',['as' => 'update_remarks']);
+        $routes->get('employee-monthly-hires', 'AdminController::monthlyHires');
         //////attendance
         $routes->get('attendance','AdminController::attendance',['as'=>'admin.attendance']);
         ///////leave

@@ -66,6 +66,7 @@
                                 data-lastname="<?= htmlspecialchars($emp['lastname']) ?>"
                                 data-phone="<?= htmlspecialchars($emp['phone']) ?>"
                                 data-dob="<?= htmlspecialchars($emp['dob']) ?>"
+                                data-sex="<?= htmlspecialchars($emp['sex']) ?>"
                                 data-address="<?= htmlspecialchars($emp['address']) ?>"
                                 data-p-school="<?= htmlspecialchars($emp['p_school']) ?>"
                                 data-s-school="<?= htmlspecialchars($emp['s_school']) ?>"
@@ -160,11 +161,17 @@
                                                             <input type="text" id="view_dob" class="form-control" readonly>
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="view_sex">Sex</label>
+                                                            <input type="text" id="view_sex" name="sex" class="form-control" readonly>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="view_address">Address</label>
-                                                    <input type="text" id="view_address" class="form-control" readonly>
-                                                </div>
+                                                            <label for="view_address">Address</label>
+                                                            <input type="text" id="view_address" class="form-control" readonly>
+                                                        </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="educational_background" role="tabpanel">
@@ -263,7 +270,8 @@
                     <!-- Personal Details Form -->
                     <div class="tab-pane fade show active" id="edit_personal_details" role="tabpanel" aria-labelledby="personal-details-tab">
                         <form id="editPersonalDetailsForm">
-                            <input type="hidden" id="update_employee_id" name="id">
+                        <?= csrf_field() ?>
+                            <input type="hidden" id="update_employee_id_personal" name="id">
                             <div class="pd-20">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -288,6 +296,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="edit_sex">Sex :</label>
+                                    <input type="text" id="edit_sex" name="sex" class="form-control" required>
+                                </div>
+                                <div class="form-group">
                                     <label for="edit_address">Address</label>
                                     <input type="text" id="edit_address" name="address" class="form-control" required>
                                 </div>
@@ -302,7 +314,8 @@
                     <!-- Educational Background Form -->
                     <div class="tab-pane fade" id="edit_educational_background" role="tabpanel" aria-labelledby="educational-background-tab">
                         <form id="editEducationalBackgroundForm">
-                            <input type="hidden" id="update_employee_id" name="id">
+                        <?= csrf_field() ?>
+                            <input type="hidden" id="update_employee_id_edu" name="id">
                             <div class="pd-20">
                                 <div class="form-group">
                                     <label for="edit_p_school">Primary School Attended</label>
@@ -327,7 +340,8 @@
                     <!-- Interview Form -->
                     <div class="tab-pane fade" id="edit_interview" role="tabpanel" aria-labelledby="interview-tab">
                         <form id="editInterviewForm">
-                            <input type="hidden" id="update_employee_id" name="id">
+                        <?= csrf_field() ?>
+                            <input type="hidden" id="update_employee_id_interview" name="id">
                             <div class="pd-20">
                                 <div class="form-group">
                                     <label for="edit_interview_for">Interview For</label>
@@ -360,7 +374,8 @@
                     <!-- Remarks Form -->
                     <div class="tab-pane fade" id="edit_remarks" role="tabpanel" aria-labelledby="remarks-tab">
                         <form id="editRemarksForm">
-                            <input type="hidden" id="update_employee_id" name="id">
+                        <?= csrf_field() ?>
+                            <input type="hidden" id="update_employee_id_remarks" name="id">
                             <div class="pd-20">
                                 <div class="form-group">
                                     <label for="edit_behaviour">Behaviour</label>
@@ -368,7 +383,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="edit_result">Result</label>
-                                    <input type="text" id="edit_result" name="result" class="form-control" required>
+                                    <select id="edit_result" name="result" class="form-control" required>
+                                        <option value="">Select Result</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Hired">Hired</option>
+                                        <option value="Rejected">Rejected</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="edit_comment">Comment</label>
@@ -450,12 +470,13 @@
             dataType: 'json',
             success: function(response) {
 				if(response) {
-                 $('#view_picture').attr('src', response.picture ? '<?= base_url('backend/images/users/') ?>' + response.picture : '<?= base_url('backend/images/users/employee.png') ?>');
+				  $('#view_picture').attr('src', response.picture ? '<?= base_url('backend/images/users/') ?>' + response.picture : '<?= base_url('backend/images/users/employee.png') ?>');
                 $('#view_firstname').val(response.firstname);
 				$('#view_lastname').val(response.lastname);
                 $('#view_phone').val(response.phone);
                 $('#view_email').val(response.email);
                 $('#view_dob').val(response.dob);
+                $('#view_sex').val(response.sex);
                 $('#view_address').val(response.address);
                 $('#view_p_school').val(response.p_school);
                 $('#view_s_school').val(response.s_school);
@@ -467,6 +488,7 @@
                 $('#view_behaviour').val(response.behaviour);
                 $('#view_result').val(response.result);
                 $('#view_comment').val(response.comment);
+                $('#view_sex').val(response.sex);
             
                 $('#viewEmployeeModal').modal('show');
 			} else {
@@ -488,221 +510,7 @@
         });
     });
 });
-
-</script>
-<script>
-     $(document).ready(function() {
-    // Handle edit button clicks for employees
-    $('.edit-employee-btn').on('click', function() {
-        // Retrieve data attributes from the button
-        var id = $(this).data('id');
-        var firstname = $(this).data('firstname');
-        var lastname = $(this).data('lastname');
-        var phone = $(this).data('phone');
-        var dob = $(this).data('dob');
-        var address = $(this).data('address');
-        var p_school = $(this).data('p_school');
-        var s_school = $(this).data('s_school');
-        var t_school = $(this).data('t_school');
-        var interview_for = $(this).data('interview_for');
-        var interview_type = $(this).data('interview_type');
-        var interview_date = $(this).data('interview_date');
-        var interview_time = $(this).data('interview_time');
-        var behaviour = $(this).data('behaviour');
-        var result = $(this).data('result');
-        var comment = $(this).data('comment');
-
-        // Populate the modal form fields with the retrieved data
-        $('#update_employee_id').val(id);
-        $('#edit_firstname').val(firstname);
-        $('#edit_lastname').val(lastname);
-        $('#edit_phone').val(phone);
-        $('#edit_dob').val(dob);
-        $('#edit_address').val(address);
-        $('#edit_p_school').val(p_school);
-        $('#edit_s_school').val(s_school);
-        $('#edit_t_school').val(t_school);
-        $('#edit_interview_for').val(interview_for);
-        $('#edit_interview_type').val(interview_type);
-        $('#edit_interview_date').val(interview_date);
-        $('#edit_interview_time').val(interview_time);
-        $('#edit_behaviour').val(behaviour);
-        $('#edit_result').val(result);
-        $('#edit_comment').val(comment);
-
-        // Show the edit employee modal
-        $('#editEmployeeModal').modal('show');
-    });
-});
-
-
-</script>
-<script>
-    $(document).ready(function() {
-    // Function to handle personal details form submission
-    function submitPersonalDetailsForm() {
-        $('#editPersonalDetailsForm').on('submit', function(e) {
-            e.preventDefault();
-            var formData = $(this).serialize();
-
-            $.ajax({
-                type: 'POST',
-                url: 'update_personal_details',
-                data: formData,
-                success: function(response) {
-                    if (response.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: response.message,
-                        });
-                        $('#editEmployeeModal').modal('hide');
-                        location.reload();
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: response.message,
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred',
-                    });
-                }
-            });
-        });
-    }
-
-    // Function to handle educational background form submission
-    function submitEducationalBackgroundForm() {
-        $('#editEducationalBackgroundForm').on('submit', function(e) {
-            e.preventDefault();
-            var formData = $(this).serialize();
-
-            $.ajax({
-                type: 'POST',
-                url: 'update_educational_background',
-                data: formData,
-                success: function(response) {
-                    if (response.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: response.message,
-                        });
-                        $('#editEmployeeModal').modal('hide');
-                        location.reload();
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: response.message,
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred',
-                    });
-                }
-            });
-        });
-    }
-
-    // Function to handle interview form submission
-    function submitInterviewForm() {
-        $('#editInterviewForm').on('submit', function(e) {
-            e.preventDefault();
-            var formData = $(this).serialize();
-
-            $.ajax({
-                type: 'POST',
-                url: 'update_interview',
-                data: formData,
-                success: function(response) {
-                    if (response.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: response.message,
-                        });
-                        $('#editEmployeeModal').modal('hide');
-                        location.reload();
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: response.message,
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred',
-                    });
-                }
-            });
-        });
-    }
-
-    // Function to handle remarks form submission
-    function submitRemarksForm() {
-        $('#editRemarksForm').on('submit', function(e) {
-            e.preventDefault();
-            var formData = $(this).serialize();
-
-            $.ajax({
-                type: 'POST',
-                url: 'update_remarks',
-                data: formData,
-                success: function(response) {
-                    if (response.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: response.message,
-                        });
-                        $('#editEmployeeModal').modal('hide');
-                        location.reload();
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: response.message,
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred',
-                    });
-                }
-            });
-        });
-    }
-
-    // Call the submit functions
-    submitPersonalDetailsForm();
-    submitEducationalBackgroundForm();
-    submitInterviewForm();
-    submitRemarksForm();
-});
-
-</script>
-
-
-
-
+</script>   
 <script>
 function printTable() {
     // Open a new window or tab
@@ -934,5 +742,103 @@ $(document).ready(function() {
 
 
 </script>
+<script>
+    $(document).ready(function() {
+        // Populate modal with employee data
+        $(document).on('click', '.edit-employee-btn', function() {
+            let employeeId = $(this).data('id');
+            $('#update_employee_id_personal').val(employeeId);
+            $('#update_employee_id_edu').val(employeeId);
+            $('#update_employee_id_interview').val(employeeId);
+            $('#update_employee_id_remarks').val(employeeId);
+
+            // Personal Details
+            $('#edit_firstname').val($(this).data('firstname'));
+            $('#edit_lastname').val($(this).data('lastname'));
+            $('#edit_phone').val($(this).data('phone'));
+            $('#edit_dob').val($(this).data('dob'));
+            $('#edit_sex').val($(this).data('sex'));
+            $('#edit_address').val($(this).data('address'));
+
+            // Educational Background
+            $('#edit_p_school').val($(this).data('p-school'));
+            $('#edit_s_school').val($(this).data('s-school'));
+            $('#edit_t_school').val($(this).data('t-school'));
+
+            // Interview
+            $('#edit_interview_for').val($(this).data('interview-for'));
+            $('#edit_interview_type').val($(this).data('interview-type'));
+            $('#edit_interview_date').val($(this).data('interview-date'));
+            $('#edit_interview_time').val($(this).data('interview-time'));
+
+            // Remarks
+            $('#edit_behaviour').val($(this).data('behaviour'));
+            $('#edit_result').val($(this).data('result'));
+            $('#edit_comment').val($(this).data('comment'));
+        });
+
+        // Function to handle form submissions
+        function handleFormSubmission(formId, url, successMessage) {
+            $(formId).on('submit', function(event) {
+                event.preventDefault();
+
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: successMessage,
+                            }).then(() => {
+                                $('#editEmployeeModal').modal('hide'); // Close modal on success
+                                location.reload(); // Reload the page to reflect changes
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message,
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred while processing your request.',
+                        });
+                    }
+                });
+            });
+        }
+
+        // Initialize form submission handlers
+        handleFormSubmission('#editPersonalDetailsForm', '<?= route_to('update_personal_details') ?>', 'Personal details updated successfully.');
+        handleFormSubmission('#editEducationalBackgroundForm', '<?= route_to('update_educational_background') ?>', 'Educational background updated successfully.');
+        handleFormSubmission('#editInterviewForm', '<?= route_to('update_interview') ?>', 'Interview details updated successfully.');
+        handleFormSubmission('#editRemarksForm', '<?= route_to('update_remarks') ?>', 'Remarks updated successfully.');
+
+        // Date picker initialization
+        $('.date-picker').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true
+        });
+
+        // Time picker initialization
+        $('.time-picker').timepicker({
+            showMeridian: false,
+            showSeconds: true,
+            defaultTime: false
+        });
+    });
+</script>
+
+
+
 
 <?= $this->endSection() ?>

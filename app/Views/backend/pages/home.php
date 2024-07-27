@@ -67,6 +67,27 @@
 						</div>
 					</div>
 				</div>
+				<div class="card-box pb-8">
+					<div class="col-md-15 mb-20">
+						<div class="card-box height-100-p pd-20">
+							<div
+								class="d-flex flex-wrap justify-content-between align-items-center pb-0 pb-md-3"
+							>
+								<div class="h5 mb-md-0">Employee</div>
+								<div class="form-group mb-md-0">
+									<select class="form-control form-control-sm selectpicker">
+										<option value="">Last Week</option>
+										<option value="">Last Month</option>
+										<option value="">Last 6 Month</option>
+										<option value="">Last 1 year</option>
+									</select>
+								</div>
+							</div>
+							<div id="activities-chart"></div>
+						</div>
+					</div>
+				</div>
+
 				<div class="card-box pb-10">
 					<div class="h5 pd-20 mb-0">Employee</div>
 					<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
