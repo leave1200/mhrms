@@ -67,7 +67,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="card-box pb-8">
+				<!-- <div class="card-box pb-8">
 					<div class="col-md-15 mb-20">
 						<div class="card-box height-100-p pd-20">
 							<div
@@ -86,7 +86,7 @@
 							<div id="activities-chart"></div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
 				<div class="card-box pb-10">
 					<div class="h5 pd-20 mb-0">Employee</div>
