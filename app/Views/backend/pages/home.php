@@ -92,8 +92,8 @@
 					<div class="h5 pd-20 mb-0">Employee</div>
 					<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
 						<div class="row">
-							<div class="col-sm-12">
-								<table class="data-table table nowrap dataTable no-footer dtr-inline collapsed" id="DataTables_Table_0" role="grid">
+						<div class="table-responsive">
+							<table class="table table-stripped" id="DataTables_Table_0" role="grid">
 									<thead>
 										<tr role="row">
 											<th>#</th>
