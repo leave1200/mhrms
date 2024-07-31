@@ -435,8 +435,6 @@ public function updateDesignation()
    // app/Controllers/AdminController.php
    public function updatePersonalDetail()
    {
-    $employeeModel = new EmployeeModel();
-    $employee = $employeeModel->findAll();
        if ($this->request->isAJAX()) {
            $id = $this->request->getPost('id');
            $data = [
@@ -457,8 +455,6 @@ public function updateDesignation()
 
   public function updateEducationalBackground()
 {
-    $employeeModel = new EmployeeModel();
-    $employee = $employeeModel->findAll();
     if ($this->request->isAJAX()) {
         $id = $this->request->getPost('id');
         $data = [
@@ -479,8 +475,6 @@ public function updateDesignation()
 
    public function updateInterview()
    {
-    $employeeModel = new EmployeeModel();
-    $employee = $employeeModel->findAll();
        if ($this->request->isAJAX()) {
            $id = $this->request->getPost('id');
            $data = [
@@ -499,8 +493,6 @@ public function updateDesignation()
 
    public function updateRemarks()
    {
-    $employeeModel = new EmployeeModel();
-    $employee = $employeeModel->findAll();
        if ($this->request->isAJAX()) {
            $id = $this->request->getPost('id');
            $data = [
