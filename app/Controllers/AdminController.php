@@ -433,80 +433,60 @@ public function updateDesignation()
         return view('backend/pages/employeelist',$data);
     }
    // app/Controllers/AdminController.php
-   public function updatePersonalDetail()
+   public function updateEducationalBackground()
    {
        if ($this->request->isAJAX()) {
            $id = $this->request->getPost('id');
            $data = [
-               'firstname' => $this->request->getPost('firstname'),
-               'lastname' => $this->request->getPost('lastname'),
-               'phone' => $this->request->getPost('phone'),
-               'dob' => $this->request->getPost('dob'),
-               'sex' => $this->request->getPost('sex'),
-               'address' => $this->request->getPost('address'),
+               'p_school' => $this->request->getPost('p_school'),
+               's_school' => $this->request->getPost('s_school'),
+               't_school' => $this->request->getPost('t_school'),
            ];
-
-           $this->employeeModel->update($id, $data);
-           return $this->response->setJSON(['success' => true, 'message' => 'Personal details updated successfully.']);
+   
+           if ($this->employeeModel->update($id, $data)) {
+               return $this->response->setJSON(['success' => true, 'message' => 'Educational background updated successfully.']);
+           } else {
+               return $this->response->setJSON(['success' => false, 'message' => 'Failed to update educational background.']);
+           }
        }
-
+   
        return $this->response->setJSON(['success' => false, 'message' => 'Invalid request.']);
    }
-
-  public function updateEducationalBackground()
-{
-    if ($this->request->isAJAX()) {
-        $id = $this->request->getPost('id');
-        $data = [
-            'p_school' => $this->request->getPost('p_school'),
-            's_school' => $this->request->getPost('s_school'),
-            't_school' => $this->request->getPost('t_school'),
-        ];
-
-        if ($this->employeeModel->update($id, $data)) {
-            return $this->response->setJSON(['success' => true, 'message' => 'Educational background updated successfully.']);
-        } else {
-            return $this->response->setJSON(['success' => false, 'message' => 'Failed to update educational background.']);
-        }
-    }
-
-    return $this->response->setJSON(['success' => false, 'message' => 'Invalid request.']);
-}
-
-   public function updateInterview()
-   {
-       if ($this->request->isAJAX()) {
-           $id = $this->request->getPost('id');
-           $data = [
-               'interview_for' => $this->request->getPost('interview_for'),
-               'interview_type' => $this->request->getPost('interview_type'),
-               'interview_date' => $this->request->getPost('interview_date'),
-               'interview_time' => $this->request->getPost('interview_time'),
-           ];
-
-           $this->employeeModel->update($id, $data);
-           return $this->response->setJSON(['success' => true, 'message' => 'Interview details updated successfully.']);
-       }
-
-       return $this->response->setJSON(['success' => false, 'message' => 'Invalid request.']);
-   }
-
-   public function updateRemarks()
-   {
-       if ($this->request->isAJAX()) {
-           $id = $this->request->getPost('id');
-           $data = [
-               'behaviour' => $this->request->getPost('behaviour'),
-               'result' => $this->request->getPost('result'),
-               'comment' => $this->request->getPost('comment'),
-           ];
-
-           $this->employeeModel->update($id, $data);
-           return $this->response->setJSON(['success' => true, 'message' => 'Remarks updated successfully.']);
-       }
-
-       return $this->response->setJSON(['success' => false, 'message' => 'Invalid request.']);
-   }
+   
+      public function updateInterview()
+      {
+          if ($this->request->isAJAX()) {
+              $id = $this->request->getPost('id');
+              $data = [
+                  'interview_for' => $this->request->getPost('interview_for'),
+                  'interview_type' => $this->request->getPost('interview_type'),
+                  'interview_date' => $this->request->getPost('interview_date'),
+                  'interview_time' => $this->request->getPost('interview_time'),
+              ];
+   
+              $this->employeeModel->update($id, $data);
+              return $this->response->setJSON(['success' => true, 'message' => 'Interview details updated successfully.']);
+          }
+   
+          return $this->response->setJSON(['success' => false, 'message' => 'Invalid request.']);
+      }
+   
+      public function updateRemarks()
+      {
+          if ($this->request->isAJAX()) {
+              $id = $this->request->getPost('id');
+              $data = [
+                  'behaviour' => $this->request->getPost('behaviour'),
+                  'result' => $this->request->getPost('result'),
+                  'comment' => $this->request->getPost('comment'),
+              ];
+   
+              $this->employeeModel->update($id, $data);
+              return $this->response->setJSON(['success' => true, 'message' => 'Remarks updated successfully.']);
+          }
+   
+          return $this->response->setJSON(['success' => false, 'message' => 'Invalid request.']);
+      }
 
     
    public function update_profile_picture()
