@@ -425,7 +425,6 @@ public function updateDesignation()
     
     public function employeelist()
     {
-        $employeeModel = new EmployeeModel();
         $employee = $employeeModel->findAll();
 
         $data = [
