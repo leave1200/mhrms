@@ -433,6 +433,25 @@ public function updateDesignation()
         return view('backend/pages/employeelist',$data);
     }
    // app/Controllers/AdminController.php
+   public function updatePersonalDetail()
+   {
+       if ($this->request->isAJAX()) {
+           $id = $this->request->getPost('id');
+           $data = [
+               'firstname' => $this->request->getPost('firstname'),
+               'lastname' => $this->request->getPost('lastname'),
+               'phone' => $this->request->getPost('phone'),
+               'dob' => $this->request->getPost('dob'),
+               'sex' => $this->request->getPost('sex'),
+               'address' => $this->request->getPost('address'),
+           ];
+
+           $this->employeeModel->update($id, $data);
+           return $this->response->setJSON(['success' => true, 'message' => 'Personal details updated successfully.']);
+       }
+
+       return $this->response->setJSON(['success' => false, 'message' => 'Invalid request.']);
+   }
    public function updateEducationalBackground()
    {
        if ($this->request->isAJAX()) {
