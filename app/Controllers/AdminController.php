@@ -14,6 +14,8 @@ use App\Models\EmployeeModel;
 class AdminController extends BaseController
 {
     protected $helpers =['url','form', 'CIMail', 'CIFunctions', 'EmployeeModel'];
+    protected $employeeModel;
+
 
     public function index()
     {
