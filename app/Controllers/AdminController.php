@@ -34,6 +34,10 @@ class AdminController extends BaseController
         ];
         return view('backend/pages/home', $data);
     }
+    public function __construct()
+    {
+        $this->employeeModel = new EmployeeModel();
+    }
 
     public function logoutHandler(){
         CIAuth::forget();
