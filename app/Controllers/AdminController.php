@@ -17,6 +17,7 @@ class AdminController extends BaseController
 
     public function index()
     {
+        $employeeModel = new EmployeeModel();
         $employee = $employeeModel->findAll();
         $employeeCount = $employeeModel->countAllResults();
         $designationModel = new Designation();
