@@ -429,7 +429,8 @@ public function updateDesignation()
     
     public function employeelist()
     {
-        $employee = employeeModel->findAll();
+        $employeeModel = new EmployeeModel();
+        $employee = $employeeModel->findAll();
 
         $data = [
             'pageTitle' => 'Employee List',
