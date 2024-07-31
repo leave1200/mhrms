@@ -512,7 +512,7 @@ public function updateDesignation()
    public function update_profile_picture()
    {
        $id = $this->request->getPost('id');
-       $employeeModel = new EmployeeModel();
+       $employee = new EmployeeModel();
    
        if ($imagefile = $this->request->getFile('profile_picture')) {
            if ($imagefile->isValid() && !$imagefile->hasMoved()) {
@@ -521,7 +521,7 @@ public function updateDesignation()
    
                $data = ['picture' => $newName];
    
-               if ($employeeModel->update($id, $data)) {
+               if ($employee->update($id, $data)) {
                    return $this->response->setJSON([
                        'success' => true,
                        'message' => 'Profile picture updated successfully',
