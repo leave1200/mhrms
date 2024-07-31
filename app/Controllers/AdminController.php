@@ -512,7 +512,7 @@ public function updateDesignation()
    public function update_profile_picture()
    {
        $id = $this->request->getPost('id');
-       $employeeModel = new EmployeeModel();
+       $employee = new EmployeeModel();
    
        if ($imagefile = $this->request->getFile('profile_picture')) {
            if ($imagefile->isValid() && !$imagefile->hasMoved()) {
@@ -521,7 +521,7 @@ public function updateDesignation()
    
                $data = ['picture' => $newName];
    
-               if ($employeeModel->update($id, $data)) {
+               if ($employee->update($id, $data)) {
                    return $this->response->setJSON([
                        'success' => true,
                        'message' => 'Profile picture updated successfully',
@@ -549,8 +549,8 @@ public function updateDesignation()
     public function getEmployee()
     {
         $employeeId = $this->request->getPost('id');
-        $employeeModel = new EmployeeModel();
-        $employee = $employeeModel->find($employeeId);
+        $employees = new EmployeeModel();
+        $employee = $employees->find($employeeId);
 
         if ($employee) {
             return $this->response->setJSON($employee);
@@ -572,8 +572,8 @@ public function updateDesignation()
         return $this->response->setJSON(['status' => 'error', 'message' => 'Invalid employee ID.']);
     }
 
-    $employeeModel = new \App\Models\EmployeeModel();
-    if ($employeeModel->delete($employeeId)) {
+    $employees = new \App\Models\EmployeeModel();
+    if ($employees->delete($employeeId)) {
         return $this->response->setJSON(['status' => 'success', 'message' => 'Employee deleted successfully.']);
     } else {
         return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to delete employee.']);

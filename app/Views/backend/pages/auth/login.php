@@ -55,9 +55,9 @@
 										</div>
 									</div>
 									<div class="col-6">
-										<div class="forgot-password">
+										<!--<div class="forgot-password">
 											<a href="<?= route_to('admin.forget.forms') ?>">Forgot Password</a>
-										</div>
+										</div>-->
 									</div>
 								</div>
 								<div class="row">
