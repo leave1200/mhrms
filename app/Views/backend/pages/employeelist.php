@@ -20,7 +20,7 @@
         </div>
     </div>
 </div>
-<button onclick="printTable()" class="btn btn-tamato"><i class="icon-copy fa fa-file-word-o" aria-hidden="true"></i><span> Print</span></button>
+<button onclick="printTable()" class="btn btn-primary"><i class="icon-copy fa fa-file-word-o" aria-hidden="true"></i><span> Print</span></button>
 <button onclick="exportToCSV()" class="btn btn-primary"><i class="icon-copy fa fa-file-excel-o" aria-hidden="true"></i><span> CSV</span></button>
 <button class="btn btn-primary" onclick="exportToExcel()"><i class="icon-copy fa fa-file-excel-o" aria-hidden="true"></i><span> Excel</span></button>
 <div class="pd-20 card-box mb-30">
