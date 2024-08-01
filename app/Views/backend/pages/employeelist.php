@@ -286,7 +286,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="edit_phone">Phone Number</label>
-                                            <input type="text" id="edit_phone" name="phone" class="form-control" pattern="\d*" maxlength="11" required title="Phone number should be numeric and up to 11 digits">
+                                            <input type="text" id="edit_phone" name="phone" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="11" required title="Phone number should be numeric and up to 11 digits">
                                         </div>
                                         <div class="form-group">
                                             <label for="edit_dob">Date of Birth</label>
