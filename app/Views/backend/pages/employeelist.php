@@ -20,7 +20,7 @@
         </div>
     </div>
 </div>
-<button onclick="printTable()" class="btn btn-primary"><i class="icon-copy fa fa-file-print-o" aria-hidden="true"></i>Print</button>
+<button onclick="printTable()" class="btn btn-primary"><i class="icon-copy fa fa-file-word-o" aria-hidden="true"></i>Print</button>
 <button onclick="exportToCSV()" class="btn btn-primary">Export to CSV</button>
 <button class="btn btn-primary" onclick="exportToExcel()">Export to Excel</button>
 <div class="pd-20 card-box mb-30">
