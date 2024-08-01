@@ -73,6 +73,19 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="sex">Sex :</label>
+                                    <select class="form-control" id="sex" name="sex">
+                                        <option value="">Sex</option>
+                                        <option value="Pending">Male</option>
+                                        <option value="Hired">Female</option>
+                                        <option value="Rejected">Others</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </section>
                     <h5>Educational Background</h5>
                     <section>

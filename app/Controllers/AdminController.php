@@ -381,7 +381,8 @@ public function updateDesignation()
            'interview_time' => 'required',
            'behaviour' => 'required',
            'result' => 'required',
-           'comment' => 'required'
+           'comment' => 'required',
+           'sex' => 'required'
        ]);
 
        if (!$validation->withRequest($request)->run()) {
@@ -410,7 +411,8 @@ public function updateDesignation()
            'interview_time' => $request->getPost('interview_time'),
            'behaviour' => $request->getPost('behaviour'),
            'result' => $request->getPost('result'),
-           'comment' => $request->getPost('comment')
+           'comment' => $request->getPost('comment'),
+           'sex' => $request->getPost('sex')
        ];
 
        if ($employeeModel->save($data)) {
