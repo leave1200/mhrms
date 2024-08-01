@@ -55,7 +55,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">Phone Number :</label>
-                                    <input type="text" class="form-control" id="phone" name="phone" required/>
+                                    <input type="text" class="form-control" id="phone" name="phone" maxlength="11" pattern="[0-9]+" required/>
                                 </div>
                             </div>
                         </div>
