@@ -83,7 +83,7 @@
                             </button>
 
 									  <button type="button" class="btn btn-sm btn-danger" onclick="deleteEmployee(<?= $emp['id'] ?>)"><i class="icon-copy fa fa-trash" aria-hidden="true"></i></button>
-								<a href="<?= route_to('employee_print', $emp['id']) ?>" class="btn btn-sm btn-secondary" target="_blank">Print</a>
+								<a href="<?= route_to('employee_print', $emp['id']) ?>" class="btn btn-sm btn-secondary" target="_blank"><i class="icon-copy fa fa-print" aria-hidden="true"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
