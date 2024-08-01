@@ -200,6 +200,7 @@
                 changeYear: true,
                 yearRange: "-100:+0",
                 dateFormat: "yy-mm-dd",
+                defaultDate: new Date(2005, 0, 1), // January 1, 2006
                 onSelect: function(dateText, inst) {
                     var selectedDate = new Date(dateText);
                     selectedDate.setFullYear(selectedDate.getFullYear() - 18);
