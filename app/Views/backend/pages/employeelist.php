@@ -59,7 +59,7 @@
                             <td><?= htmlspecialchars($emp['dob']) ?></td>
                             <td><?= htmlspecialchars($emp['email']) ?></td>
                             <td>
-							<button class="btn btn-info view-btn" data-id="<?= $emp['id'] ?>">View</button>
+							<button class="btn btn-info view-btn" data-id="<?= $emp['id'] ?>"><i class="icon-copy fa fa-eye" aria-hidden="true"></i></button>
 							<button class="btn btn-primary edit-employee-btn"
                                 data-id="<?= $emp['id'] ?>"
                                 data-firstname="<?= htmlspecialchars($emp['firstname']) ?>"
