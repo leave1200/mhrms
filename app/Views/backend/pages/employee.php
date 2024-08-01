@@ -1,7 +1,7 @@
 <?= $this->extend('backend/layout/pages-layout') ?>
-<script src="/backend/jquery-3.6.0.min.js"></script>
-<script src="/backend/src/plugins/apexcharts/apexcharts.min.js"></script>
-<link rel="preload" href="/backend/vendors/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
 <?= $this->section('content') ?>
 <div class="page-header">
