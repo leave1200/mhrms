@@ -79,8 +79,7 @@
                                 data-result="<?= htmlspecialchars($emp['result']) ?>"
                                 data-comment="<?= htmlspecialchars($emp['comment']) ?>"
                                 data-toggle="modal"
-                                data-target="#editEmployeeModal">
-                                Edit
+                                data-target="#editEmployeeModal"><i class="icon-copy dw dw-pen"></i>
                             </button>
 
 									  <button type="button" class="btn btn-sm btn-danger" onclick="deleteEmployee(<?= $emp['id'] ?>)">Delete</button>
