@@ -82,7 +82,7 @@
                                 data-target="#editEmployeeModal"><i class="icon-copy dw dw-pen"></i>
                             </button>
 
-									  <button type="button" class="btn btn-sm btn-danger" onclick="deleteEmployee(<?= $emp['id'] ?>)">Delete</button>
+									  <button type="button" class="btn btn-sm btn-danger" onclick="deleteEmployee(<?= $emp['id'] ?>)"><i class="icon-copy fa fa-user-times" aria-hidden="true"></i></button>
 								<a href="<?= route_to('employee_print', $emp['id']) ?>" class="btn btn-sm btn-secondary" target="_blank">Print</a>
                             </td>
                         </tr>
