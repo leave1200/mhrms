@@ -81,36 +81,3 @@ var options = {
 
 var chart = new ApexCharts(document.querySelector("#activities-chart"), options);
 chart.render();
-
-// AJAX call to fetch employee data
-$(document).ready(function() {
-    $.ajax({
-        url: '/employee/getEmployeeData', // Make sure this matches the route you defined
-        method: 'GET',
-        success: function(response) {
-            var maleData = response.male;
-            var femaleData = response.female;
-            var categories = response.years;
-
-            // Update the chart with the new data
-            chart.updateOptions({
-                series: [
-                    {
-                        name: "Male",
-                        data: maleData
-                    },
-                    {
-                        name: "Female",
-                        data: femaleData
-                    }
-                ],
-                xaxis: {
-                    categories: categories
-                }
-            });
-        },
-        error: function(error) {
-            console.error('Error fetching employee data:', error);
-        }
-    });
-});

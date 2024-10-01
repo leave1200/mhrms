@@ -80,6 +80,12 @@ $(document).ready(function() {
             });
         } 
     });
+	$('.date-picker').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        orientation: 'bottom',
+        language: 'en' // Set the language to English
+    });
 
     $('.time-picker').timeDropper({
         format: 'h:mm a', // 12-hour format with AM/PM
@@ -90,6 +96,8 @@ $(document).ready(function() {
         backgroundColor: "#FFF", // background color of the clock
         init_animation: 'fadeIn' // initial animation (default)
     });
+
+
 
 
     // Validate on form submit (if not using AJAX submission)
@@ -112,7 +120,4 @@ $(document).ready(function() {
         }
     });
 });
-
-
-
-
+ 

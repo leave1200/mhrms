@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers;
-use CodeIgniter\API\ResponseTrait;
+
 use App\Models\User;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -9,22 +9,13 @@ use App\Libraries\CIAuth;
 use App\Validation\IsCurrentPasswordCorrect;
 use App\Models\Designation;
 use App\Models\Position;
-use App\Models\EmployeeModel;
-use App\Models\AttendanceModel; 
-use App\Models\leave_typeModel;
-use App\Models\LeaveApplicationModel;
+use App\Models\EmployeeModel; 
 
 class AdminController extends BaseController
 {
-    
+    protected $helpers =['url','form', 'CIMail', 'CIFunctions', 'EmployeeModel'];
     protected $employeeModel;
 
-    public function __construct()
-    {
-        $this->employeeModel = new \App\Models\EmployeeModel(); // Load your model
-        $this->leaveTypeModel = new \App\Models\leave_typeModel();
-    }
-    protected $helpers =['url','form', 'CIMail', 'CIFunctions', 'EmployeeModel','AttendanceModel'];
 
     public function index()
     {
@@ -34,17 +25,18 @@ class AdminController extends BaseController
         $designationModel = new Designation();
         $designations = $designationModel->findAll();
         $designationCount = $designationModel->countAllResults();
-        $userStatus = session()->get('userStatus');
-        
 
         $data = [
             'pageTitle' => 'Dashboard',
             'employee' => $employee,
             'employeeCount' => $employeeCount,
-            'designationCount' => $designationCount,
-            'userStatus' => $userStatus
+            'designationCount' => $designationCount
         ];
         return view('backend/pages/home', $data);
+    }
+    public function __construct()
+    {
+        $this->employeeModel = new EmployeeModel();
     }
 
     public function logoutHandler(){
@@ -204,12 +196,10 @@ class AdminController extends BaseController
     public function designation(){
         $designationModel = new Designation();
         $designations = $designationModel->findAll(); // Retrieve all designations from the database
-        $userStatus = session()->get('userStatus');
 
         $data = [
             'pageTitle' => 'Designation',
-            'designations' => $designations, // Pass the fetched designations to the view
-            'userStatus' => $userStatus
+            'designations' => $designations // Pass the fetched designations to the view
         ];
 
         return view('backend/pages/designation', $data);
@@ -282,11 +272,9 @@ public function updateDesignation()
     {
         $positionModel = new Position();
         $positions = $positionModel->findAll();
-        $userStatus = session()->get('userStatus');
         $data = [
             'pageTitle' => 'Position',
-            'positions' => $positions,
-            'userStatus' => $userStatus
+            'positions' => $positions
         ];
         return view('backend/pages/position', $data);
     }
@@ -361,30 +349,13 @@ public function updateDesignation()
     {
         $employeeModel = new EmployeeModel();
         $employees = $employeeModel->findAll(); // Fetch all employees from the database
-        $userStatus = session()->get('userStatus');
 
         $data = [
             'pageTitle' => 'Employee',
-            'employee' => $employees, // Pass the retrieved data to the view
-            'userStatus' => $userStatus
+            'employee' => $employees // Pass the retrieved data to the view
         ];
 
         return view('backend/pages/employee', $data); // Load the view with data
-    }
-    public function deleteEmployee()
-    {
-        $employeeId = $this->request->getPost('id');
-        
-        if (!$employeeId) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Invalid employee ID.']);
-        }
-    
-        $employees = new \App\Models\EmployeeModel();
-        if ($employees->delete($employeeId)) {
-            return $this->response->setJSON(['status' => 'success', 'message' => 'Employee deleted successfully.']);
-        } else {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to delete employee.']);
-        }
     }
 
     public function saveEmployee()
@@ -456,6 +427,20 @@ public function updateDesignation()
            ]);
        }
    }
+    
+    
+    public function employeelist()
+    {
+        $employeeModel = new EmployeeModel();
+        $employee = $employeeModel->findAll();
+
+        $data = [
+            'pageTitle' => 'Employee List',
+            'employee' => $employee
+        ];
+        return view('backend/pages/employeelist',$data);
+    }
+   // app/Controllers/AdminController.php
    public function updatePersonalDetail()
    {
        if ($this->request->isAJAX()) {
@@ -475,102 +460,66 @@ public function updateDesignation()
 
        return $this->response->setJSON(['success' => false, 'message' => 'Invalid request.']);
    }
-
-  public function updateEducationalBackground()
-{
-    if ($this->request->isAJAX()) {
-        $id = $this->request->getPost('id');
-        $data = [
-            'p_school' => $this->request->getPost('p_school'),
-            's_school' => $this->request->getPost('s_school'),
-            't_school' => $this->request->getPost('t_school'),
-        ];
-
-        if ($this->employeeModel->update($id, $data)) {
-            return $this->response->setJSON(['success' => true, 'message' => 'Educational background updated successfully.']);
-        } else {
-            return $this->response->setJSON(['success' => false, 'message' => 'Failed to update educational background.']);
-        }
-    }
-
-    return $this->response->setJSON(['success' => false, 'message' => 'Invalid request.']);
-}
-
-   public function updateInterview()
+   public function updateEducationalBackground()
    {
        if ($this->request->isAJAX()) {
            $id = $this->request->getPost('id');
            $data = [
-               'interview_for' => $this->request->getPost('interview_for'),
-               'interview_type' => $this->request->getPost('interview_type'),
-               'interview_date' => $this->request->getPost('interview_date'),
-               'interview_time' => $this->request->getPost('interview_time'),
+               'p_school' => $this->request->getPost('p_school'),
+               's_school' => $this->request->getPost('s_school'),
+               't_school' => $this->request->getPost('t_school'),
            ];
-
-           $this->employeeModel->update($id, $data);
-           return $this->response->setJSON(['success' => true, 'message' => 'Interview details updated successfully.']);
-       }
-
-       return $this->response->setJSON(['success' => false, 'message' => 'Invalid request.']);
-   }
-
-   public function updateRemarks()
-   {
-       if ($this->request->isAJAX()) {
-           $id = $this->request->getPost('id');
-           $data = [
-               'behaviour' => $this->request->getPost('behaviour'),
-               'result' => $this->request->getPost('result'),
-               'comment' => $this->request->getPost('comment'),
-           ];
-
-           $this->employeeModel->update($id, $data);
-           return $this->response->setJSON(['success' => true, 'message' => 'Remarks updated successfully.']);
-       }
-
-       return $this->response->setJSON(['success' => false, 'message' => 'Invalid request.']);
-   }
-
-   public function updateProfilePicture()
-   {
-       if ($this->request->isAJAX()) {
-           $id = $this->request->getPost('id');
-
-           // Handle file upload
-           $file = $this->request->getFile('profile_picture');
-           if ($file->isValid() && !$file->hasMoved()) {
-               $newName = $file->getRandomName();
-               $file->move(WRITEPATH . 'uploads', $newName);
-
-               $this->employeeModel->update($id, ['profile_picture' => $newName]);
-               return $this->response->setJSON(['success' => true, 'message' => 'Profile picture updated successfully.']);
+   
+           if ($this->employeeModel->update($id, $data)) {
+               return $this->response->setJSON(['success' => true, 'message' => 'Educational background updated successfully.']);
            } else {
-               return $this->response->setJSON(['success' => false, 'message' => 'File upload failed.']);
+               return $this->response->setJSON(['success' => false, 'message' => 'Failed to update educational background.']);
            }
        }
-
+   
        return $this->response->setJSON(['success' => false, 'message' => 'Invalid request.']);
    }
+   
+      public function updateInterview()
+      {
+          if ($this->request->isAJAX()) {
+              $id = $this->request->getPost('id');
+              $data = [
+                  'interview_for' => $this->request->getPost('interview_for'),
+                  'interview_type' => $this->request->getPost('interview_type'),
+                  'interview_date' => $this->request->getPost('interview_date'),
+                  'interview_time' => $this->request->getPost('interview_time'),
+              ];
+   
+              $this->employeeModel->update($id, $data);
+              return $this->response->setJSON(['success' => true, 'message' => 'Interview details updated successfully.']);
+          }
+   
+          return $this->response->setJSON(['success' => false, 'message' => 'Invalid request.']);
+      }
+   
+      public function updateRemarks()
+      {
+          if ($this->request->isAJAX()) {
+              $id = $this->request->getPost('id');
+              $data = [
+                  'behaviour' => $this->request->getPost('behaviour'),
+                  'result' => $this->request->getPost('result'),
+                  'comment' => $this->request->getPost('comment'),
+              ];
+   
+              $this->employeeModel->update($id, $data);
+              return $this->response->setJSON(['success' => true, 'message' => 'Remarks updated successfully.']);
+          }
+   
+          return $this->response->setJSON(['success' => false, 'message' => 'Invalid request.']);
+      }
 
-    
-
-    
-    public function employeelist()
-    {
-        $employeeModel = new EmployeeModel();
-        $employee = $employeeModel->findAll();
-
-        $data = [
-            'pageTitle' => 'Employee List',
-            'employee' => $employee
-        ];
-        return view('backend/pages/employeelist',$data);
-    }
     
    public function update_profile_picture()
    {
        $id = $this->request->getPost('id');
-       $employeeModel = new EmployeeModel();
+       $employee = new EmployeeModel();
    
        if ($imagefile = $this->request->getFile('profile_picture')) {
            if ($imagefile->isValid() && !$imagefile->hasMoved()) {
@@ -579,7 +528,7 @@ public function updateDesignation()
    
                $data = ['picture' => $newName];
    
-               if ($employeeModel->update($id, $data)) {
+               if ($employee->update($id, $data)) {
                    return $this->response->setJSON([
                        'success' => true,
                        'message' => 'Profile picture updated successfully',
@@ -600,11 +549,15 @@ public function updateDesignation()
        ]);
    }
    
-   public function getEmployee()
+
+   
+
+
+    public function getEmployee()
     {
         $employeeId = $this->request->getPost('id');
-        $employeeModel = new EmployeeModel();
-        $employee = $employeeModel->find($employeeId);
+        $employees = new EmployeeModel();
+        $employee = $employees->find($employeeId);
 
         if ($employee) {
             return $this->response->setJSON($employee);
@@ -612,49 +565,27 @@ public function updateDesignation()
             return $this->response->setStatusCode(404, 'Employee not found');
         }
     }
-   
-   use ResponseTrait;
+    public function employee_report(){
+        $data = array(
+            'pageTitle'=>'Reports'
+        );
+        return view('backend/pages/employee_report',$data);
+    }
+    public function deleteEmployee()
+{
+    $employeeId = $this->request->getPost('id');
+    
+    if (!$employeeId) {
+        return $this->response->setJSON(['status' => 'error', 'message' => 'Invalid employee ID.']);
+    }
 
-   public function getEmployeeData()
-   {
-       $employeeModel = new EmployeeModel();
-       $employees = $employeeModel->findAll();
-   
-       $maleData = [];
-       $femaleData = [];
-       $years = [];
-   
-       foreach ($employees as $employee) {
-           $dob = $employee['dob']; // Assuming 'dob' is the date of birth field
-           $year = date('Y', strtotime($dob));
-   
-           if (!isset($maleData[$year])) {
-               $maleData[$year] = 0;
-               $femaleData[$year] = 0;
-           }
-   
-           if ($employee['sex'] == 'Male') {
-               $maleData[$year]++;
-           } else {
-               $femaleData[$year]++;
-           }
-   
-           if (!in_array($year, $years)) {
-               $years[] = $year;
-           }
-       }
-   
-       sort($years);
-   
-       $response = [
-           'male' => array_values(array_intersect_key($maleData, array_flip($years))),
-           'female' => array_values(array_intersect_key($femaleData, array_flip($years))),
-           'years' => $years,
-       ];
-   
-       return $this->response->setJSON($response);
-   }
-   
+    $employees = new \App\Models\EmployeeModel();
+    if ($employees->delete($employeeId)) {
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Employee deleted successfully.']);
+    } else {
+        return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to delete employee.']);
+    }
+}
 
     
     
@@ -662,373 +593,47 @@ public function updateDesignation()
 
 
 
-    public function attendance()
-            {
-                $employeeModel = new EmployeeModel();
-                $employees = $employeeModel->findAll();
-                
-                $designationModel = new Designation();
-                $designations = $designationModel->findAll();
-                
-                $positionModel = new Position();
-                $positions = $positionModel->findAll();
-                
-                $attendanceModel = new AttendanceModel();
-                $attendances = $attendanceModel->where('sign_out', null)->findAll();
-                $userStatus = session()->get('userStatus');
-
-                // Debugging: Log the fetched attendances
-                log_message('debug', 'Fetched attendances: ' . print_r($attendances, true));
-
-                $data = [
-                    'pageTitle' => 'Attendance',
-                    'employees' => $employees,
-                    'designations' => $designations,
-                    'positions' => $positions,
-                    'attendances' => $attendances, // Include attendance records here
-                    'userStatus' => $userStatus
-                ];
-                
-                return view('backend/pages/attendance', $data);
-            }
-
-            public function saveAttendance()
-            {
-                $attendanceModel = new AttendanceModel();
-                $employeeModel = new EmployeeModel();
-                $designationModel = new Designation();
-                $positionModel = new Position();
-            
-                $employeeId = $this->request->getPost('employee');
-                $officeId = $this->request->getPost('office');
-                $positionId = $this->request->getPost('position');
-            
-                // Fetch employee details
-                $employee = $employeeModel->find($employeeId);
-                $designation = $designationModel->find($officeId);
-                $position = $positionModel->find($positionId);
-            
-                if (!$employee || !isset($employee['firstname']) || !isset($employee['lastname'])) {
-                    return $this->response->setJSON(['success' => false, 'message' => 'Employee not found or missing data.']);
-                }
-            
-                if (!$designation || !isset($designation['name'])) {
-                    return $this->response->setJSON(['success' => false, 'message' => 'Office not found or missing data.']);
-                }
-            
-                if (!$position || !isset($position['position_name'])) {
-                    return $this->response->setJSON(['success' => false, 'message' => 'Position not found or missing data.']);
-                }
-            
-                // Check if the employee is already signed in and hasn't signed out yet
-                $attendance = $attendanceModel->where('name', $employee['firstname'] . ' ' . $employee['lastname'])
-                                              ->where('sign_out', null)
-                                              ->first();
-            
-                if ($attendance) {
-                    return $this->response->setJSON(['success' => false, 'message' => 'Employee is already signed in.']);
-                }
-            
-                // Prepare data for sign-in
-                $data = [
-                    'name' => $employee['firstname'] . ' ' . $employee['lastname'],
-                    'office' => $designation['name'],
-                    'position' => $position['position_name'],
-                    'attendance' => 1, // Assuming attendance value is 1 for sign-in
-                    'sign_in' => date('Y-m-d H:i:s'),
-                    'sign_out' => null
-                ];
-            
-                // Insert data into the database
-                if ($attendanceModel->insert($data)) {
-                    return $this->response->setJSON(['success' => true, 'message' => 'Sign-in recorded successfully.']);
-                } else {
-                    return $this->response->setJSON(['success' => false, 'message' => 'Failed to record sign-in.']);
-                }
-            }
-               
-            
-            public function signOut()
-            {
-                $attendanceModel = new AttendanceModel();
-                
-                $attendanceId = $this->request->getPost('id');
-            
-                if (!$attendanceId) {
-                    return $this->response->setJSON(['success' => false, 'message' => 'Attendance ID is required.']);
-                }
-            
-                $attendance = $attendanceModel->find($attendanceId);
-            
-                if (!$attendance) {
-                    return $this->response->setJSON(['success' => false, 'message' => 'Attendance record not found.']);
-                }
-            
-                // Check if already signed out
-                if ($attendance['sign_out'] !== null) {
-                    return $this->response->setJSON(['success' => false, 'message' => 'Employee is already signed out.']);
-                }
-            
-                // Update the sign_out time
-                $update = $attendanceModel->update($attendanceId, ['sign_out' => date('Y-m-d H:i:s')]);
-            
-                if ($update) {
-                    return $this->response->setJSON(['success' => true, 'message' => 'Sign-out recorded successfully.']);
-                } else {
-                    return $this->response->setJSON(['success' => false, 'message' => 'Failed to record sign-out.']);
-                }
-            }
-            
-            public function report()
-            {
-                // Load the AttendanceModel
-                $attendanceModel = new \App\Models\AttendanceModel();
-                $userStatus = session()->get('userStatus');
-            
-                // Number of records per page
-                $perPage = 10;
-            
-                // Get the current page number from the query string
-                $currentPage = $this->request->getVar('page') ?: 1;
-            
-                // Get filter dates from query string
-                $startDate = $this->request->getVar('start_date');
-                $endDate = $this->request->getVar('end_date');
-            
-                // Prepare filter conditions
-                $filterConditions = [];
-                if ($startDate) {
-                    $startDateTime = $startDate . ' 00:00:00'; // Start of the day
-                    $filterConditions['sign_in >='] = $startDateTime;
-                }
-                if ($endDate) {
-                    $endDateTime = $endDate . ' 23:59:59'; // End of the day
-                    $filterConditions['sign_in <='] = $endDateTime;
-                }
-            
-                // Total number of records based on filters
-                $totalRecords = $attendanceModel->where($filterConditions)->countAllResults();
-            
-                // Fetch data for the current page based on filters
-                $attendances = $attendanceModel->where($filterConditions)
-                                               ->orderBy('id', 'ASC')
-                                               ->findAll($perPage, ($currentPage - 1) * $perPage);
-            
-                // Initialize pager manually
-                $pager = \Config\Services::pager();
-            
-                // Calculate if there is a previous page
-                $hasPrevious = ($currentPage > 1);
-            
-                // Calculate if there is a next page
-                $hasNext = ($currentPage * $perPage < $totalRecords);
-            
-                // Prepare data to pass to the view
-                $data = [
-                    'attendances' => $attendances,
-                    'pager' => $pager,
-                    'perPage' => $perPage,
-                    'currentPage' => $currentPage,
-                    'hasPrevious' => $hasPrevious,
-                    'hasNext' => $hasNext,
-                    'startDate' => $startDate,
-                    'endDate' => $endDate,
-                    'pageTitle'=> 'Attendance Report',
-                    'userStatus' => $userStatus
-                ];
-            
-                // Load the view and pass the data
-                return view('backend/pages/attendance_report', $data);
-            }
-            
-    
-    
-    
+    public function attendance(){
+        $data = array(
+        'pageTitle'=>'Attendance'
+        );
+        return view('backend/pages/attendance', $data);
+    }
+    public function report(){
+        $data = array(
+        'pageTitle'=>'Report'
+        );
+        return view('backend/pages/report', $data);
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function leave_type()
-    {
-        $userStatus = session()->get('userStatus');
-        $data = [
-            'pageTitle' => 'Leave Type',
-            'leaveTypes' => $this->leaveTypeModel->findAll(), // Load leave types from the model
-            'userStatus' => $userStatus
-        ];
-        return view('backend/pages/leave_type', $data);
-     
-    }
-    public function save()
-    {
-        $data = [
-            'l_name' => $this->request->getPost('l_name'),
-            'l_description' => $this->request->getPost('l_description'),
-            'l_days' => $this->request->getPost('l_days'),
-        ];
-
-        $id = $this->request->getPost('id');
-        if ($id) {
-            // Update existing leave type
-            $this->leaveTypeModel->update($id, $data);
-        } else {
-            // Insert new leave type
-            $this->leaveTypeModel->insert($data);
-        }
-
-        return $this->response->setJSON(['status' => 'success', 'message' => 'Leave type saved successfully']);
-    }
-    public function updateLeave()
-    {
-        $leaveTypeModel = new \App\Models\leave_typeModel();
-    
-        // Define validation rules
-        $validationRules = [
-            'l_name' => 'required|max_length[255]',
-            'l_description' => 'required|max_length[255]',
-            'l_days' => 'required|integer|max_length[3]'
-        ];
-    
-        if (!$this->validate($validationRules)) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Validation failed.',
-                'errors' => $this->validator->getErrors()
-            ]);
-        }
-    
-        // Get input data
-        $id = $this->request->getPost('l_id');
-        $name = $this->request->getPost('l_name');
-        $description = $this->request->getPost('l_description');
-        $days = $this->request->getPost('l_days');
-    
-        // Prepare data for database
-        $data = [
-            'l_name' => $name,
-            'l_description' => $description,
-            'l_days' => $days,
-        ];
-    
-        if ($id) {
-            try {
-                // Editing an existing leave type
-                $leaveTypeModel->update($id, $data);
-                return $this->response->setJSON([
-                    'status' => 'success',
-                    'message' => 'Leave type updated successfully.'
-                ]);
-            } catch (\Exception $e) {
-                return $this->response->setJSON([
-                    'status' => 'error',
-                    'message' => 'An error occurred while updating leave type.'
-                ]);
-            }
-        }
-    
-        return $this->response->setJSON([
-            'status' => 'error',
-            'message' => 'Invalid leave type ID.'
-        ]);
-    }
-    
 
 
-    public function deleteLeave()
-    {
-        if ($this->request->isAJAX()) {
-            $leaveTypeModel = new \App\Models\leave_typeModel(); // Adjust the model name if different
-            $l_id = $this->request->getPost('l_id');
-    
-            if (!empty($l_id)) {
-                if ($leaveTypeModel->delete($l_id)) {
-                    return $this->response->setJSON(['status' => 'success', 'message' => 'Leave type deleted successfully']);
-                } else {
-                    return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to delete leave type'])->setStatusCode(500);
-                }
-            } else {
-                return $this->response->setJSON(['status' => 'error', 'message' => 'Invalid leave type ID'])->setStatusCode(400);
-            }
-        } else {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Unauthorized access'])->setStatusCode(401);
-        }
-    }
-    
-
-    public function holidays(){
-        $userStatus = session()->get('userStatus');
+    public function leave_type(){
         $data = array(
-        'pageTitle'=>'Holidays',
-        'userStatus' => $userStatus
+        'pageTitle'=>'Leave Type'
+        );
+        return view('backend/pages/leave_type', $data);
+    }
+    public function holidays(){
+        $data = array(
+        'pageTitle'=>'Holidays'
         );
         return view('backend/pages/holidays', $data);
     }
-    public function leave_application()
-    {
-         // Load the model
-         $leaveTypeModel = new leave_typeModel();
-
-         // Retrieve all leave types
-        $leaveTypes = $leaveTypeModel->findAll();
-        $employeeModel = new EmployeeModel();
-        $userStatus = session()->get('userStatus');
-        
-        // Fetch employee names
-        $employees = $employeeModel->getEmployeeNames();
-        
-        // Prepare data for the view
-        $data = [
-            'pageTitle' => 'Leave Application',
-            'leaveTypes' => $leaveTypes,
-            'employees' => $employees,
-            'userStatus' => $userStatus
-        ];
-
-        // Load the view with data
-        return view('backend/pages/leave_application', $data);
+    public function earn_leave(){
+        $data = array(
+        'pageTitle'=>'Earn Leave'
+        );
+        return view('backend/pages/earn_leave', $data);
     }
-    public function submitLeaveApplication()
-    {
-        $leaveApplicationModel = new LeaveApplicationModel();
 
-        // Validate form input
-        $validation = \Config\Services::validation();
-        $validation->setRules([
-            'la_name' => 'required|integer',
-            'la_type' => 'required|integer',
-            'la_start' => 'required|valid_date',
-            'la_end' => 'required|valid_date',
-        ]);
-
-        if (!$validation->withRequest($this->request)->run()) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Validation errors',
-                'errors' => $validation->getErrors()
-            ]);
-        }
-
-        $data = [
-            'la_name' => $this->request->getPost('la_name'), // Employee ID
-            'la_type' => $this->request->getPost('la_type'), // Leave type ID
-            'la_start' => $this->request->getPost('la_start'),
-            'la_end' => $this->request->getPost('la_end'),
-            'status' => 'Pending',
-        ];
-
-        if ($leaveApplicationModel->insert($data)) {
-            return $this->response->setJSON(['status' => 'success', 'message' => 'Leave application submitted successfully']);
-        } else {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to submit leave application. Please try again.']);
-        }
-    }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function setting(){
-        $userStatus = session()->get('userStatus');
-
         $data = array(
-        'pageTitle'=>'Setting',
-        'userStatus' => $userStatus
+        'pageTitle'=>'Setting'
         );
         return view('backend/pages/setting', $data);
     }
@@ -1053,30 +658,5 @@ public function updateDesignation()
     
         return view('backend/pages/print', $data);
     }
-
-    public function getNotifications()
-{
-    $userId = session()->get('id');  // Get the logged-in user's ID from session
-
-    $notifications = $this->db->table('notifications')
-        ->where('user_id', $userId)
-        ->where('is_read', 0)
-        ->orderBy('created_at', 'DESC')
-        ->get()
-        ->getResultArray();
-
-    return $this->response->setJSON($notifications);
-}
-public function markNotificationsRead()
-{
-    $userId = session()->get('id');
-
-    $this->db->table('notifications')
-        ->where('user_id', $userId)
-        ->update(['is_read' => 1]);
-
-    return $this->response->setJSON(['status' => 'success']);
-}
-
 
 }
