@@ -81,7 +81,7 @@
 			<div
 				class="container-fluid d-flex justify-content-between align-items-center">
 				<div class="brand-logo">
-						<img src="/extra-assets/img/madridejos" alt="" />
+						<img src="/extra-assets/img/madridejos.png" alt="" />
 				</div>
 				 <div class="login-menu">
 				 </div>
