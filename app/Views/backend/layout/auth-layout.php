@@ -78,15 +78,6 @@
 	</head>
 	<body class="login-page">
 		<div class="login-header box-shadow">
-			<div
-				class="container-fluid d-flex justify-content-between align-items-center">
-				<div class="brand-logo">
-						<img src="/extra-assets/img/madridejos.png" alt="" />
-				</div>
-				 <div class="login-menu">
-				 </div>
-                
-			</div>
 		</div>
 		<svg class="curved-background" viewBox="0 0 100 100" preserveAspectRatio="none">
         <path fill="white" d="M0,-10 C40,40 0,100 0,100 L0,100 L100,100 L100,30 Z"></path>
