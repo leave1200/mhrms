@@ -23,6 +23,7 @@ use CodeIgniter\Debug\Toolbar\Collectors\Views;
  */
 class Toolbar extends BaseConfig
 {
+    
     /**
      * --------------------------------------------------------------------------
      * Toolbar Collectors
