@@ -1,8 +1,19 @@
-<ifModule mod_rewrite.c>
+<IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /
 
-    RewriteBase / 
-    RewriteRule ^$ public/index.php [L]
-    RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
+    # Redirect Trailing Slashes...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.+)/$ /$1 [L,R=301]
 
-</ifModule>
+    # Rewrite "www.example.com -> example.com"
+    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+    # Checks to see if the user is attempting to access a valid file,
+    # such as an image or css document, if this isn't true it sends the
+    # request to index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
