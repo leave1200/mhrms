@@ -52,11 +52,7 @@ $routes->group('admin', static function($routes){
         $routes->post('attendance_save', 'AdminController::saveAttendance', ['as' => 'attendance_save']);
         $routes->post('attendance_signout', 'AdminController::signOut', ['as' => 'attendance_signout']);
         $routes->get('attendance_report', 'AdminController::report', ['as' => 'admin.Report']);
-        $routes->get('fetch_attendance_data', 'AdminController::fetchAttendanceData', ['as' => 'fetch_attendance_data']);
-        $routes->post('attendance/delete', 'AdminController::deleteAttendance', ['as' => 'attendance.delete']);
-        
-
-
+        $routes->get('fetch_attendance_data', 'AdminController::fetchAttendanceData', ['as' => 'fetch_attendance_data']);  // New Route
          
         ///////leave
         $routes->get('holidays','AdminController::holidays',['as'=>'admin.holidays']);
@@ -65,7 +61,7 @@ $routes->group('admin', static function($routes){
         $routes->post('delete_leave', 'AdminController::deleteLeave', ['as' => 'delete_leave']);
         $routes->post('update_leave', 'AdminController::updateLeave', ['as' => 'update_leave']);
         $routes->get('leave_application','AdminController::leave_application',['as'=>'admin.leave_application']);
-        $routes->post('admin/leave_application', 'AdminController::submitLeaveApplication', ['as' => 'admin.submit_leave']);
+        $routes->post('admin/leave_application', 'AdminController::submitLeaveApplication');
         $routes->get('setting','AdminController::setting',['as'=>'setting']);
         //////
         $routes->get('employee/print/(:num)', 'AdminController::printEmployee/$1', ['as' => 'employee_print']);
@@ -81,23 +77,16 @@ $routes->group('admin', static function($routes){
         $routes->get('delete-file/(:num)', 'UserController::deleteFile/$1', ['as' => 'deleteFile']);
         
 
-        $routes->get('admin/get_pending_notifications', 'AdminController::getPendingLeaveNotifications', ['as' => 'admin.pending']);
-        $routes->post('mark-notifications-read', 'AdminController::markNotificationsRead');
-        $routes->post('users/fetch', 'UserController::fetchUsers');
-
-///////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////holidays
-        $routes->post('holiday/create', 'AdminController::create', ['as' => 'admin.create_holidays']);
-        $routes->post('admin/update-holidays', 'AdminController::updateHolidays', ['as' => 'admin.update_holidays']);
-        $routes->post('admin/cancel-holidays', 'AdminController::cancelHolidays', ['as' => 'admin.cancel_holidays']);
-
+        $routes->get('get-notifications', 'AdminController::getNotifications');
+$routes->post('mark-notifications-read', 'AdminController::markNotificationsRead');
+$routes->post('users/fetch', 'UserController::fetchUsers');
 
 
     });
 
     $routes->group('', ['filter'=>'cifilter:guest'], static function($routes){
        // $routes->view('example-auth','example-auth');
-       $routes->get('/', 'AuthController::loginForm', ['as' => 'admin.login.form']);
+       $routes->get('login', 'AuthController::loginForm', ['as' => 'admin.login.form']);
        $routes->post('login', 'AuthController::loginHandler', ['as' => 'admin.login.handler']);
        $routes->get('forget-password','AuthController::forgotForms',['as'=>'admin.forget.forms']);
        $routes->post('send_password-reset-link', 'AuthController::sendPasswordResetLink', ['as' =>
