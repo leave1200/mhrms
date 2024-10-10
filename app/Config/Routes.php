@@ -7,7 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 // Default route should point to login form
-$routes->get('/', 'AuthController::loginForm', ['as' => 'admin.login.form']);
+$routes->get('login', 'AuthController::loginForm', ['as' => 'admin.login.form']);
 
 // Admin Routes - Authenticated Users
 $routes->group('admin', ['filter' => 'cifilter:auth'], static function ($routes) {
