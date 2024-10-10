@@ -1,8 +1,12 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # Set the base directory for your application
     RewriteBase /
+
+    # Redirect to the login page for all requests
+    RewriteCond %{REQUEST_URI} !^/login$  # Change '/login' to your actual login path
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php/$1 [L]
+    RewriteRule ^(.*)$ /login [L,R=302]  # This will redirect to the login page
 </IfModule>
