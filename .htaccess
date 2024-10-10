@@ -1,12 +1,13 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-
-    # Set the base directory for your application
     RewriteBase /
 
-    # Redirect requests to the login page
-    RewriteCond %{REQUEST_URI} !^/login$  # Allow access to the login page directly
+    # Redirect Trailing Slashes...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.+)/$ /$1 [L,R=301]
+
+    # Remove index.php from URL
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ /login [L,R=302]  # Redirect to the login page
+    RewriteRule ^(.*)$ index.php/$1 [L]
 </IfModule>
