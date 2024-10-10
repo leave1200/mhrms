@@ -5,32 +5,35 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
 
+// Default route should point to login form
+$routes->get('/', 'AuthController::loginForm', ['as' => 'admin.login.form']);
+
+// Admin Routes - Authenticated Users
 $routes->group('admin', ['filter' => 'cifilter:auth'], static function ($routes) {
 
     // Admin Home and Logout Routes
     $routes->get('home', 'AdminController::index', ['as' => 'admin.home']);
     $routes->get('logout', 'AdminController::logoutHandler', ['as' => 'admin.logout']);
-    
+
     // Profile Management Routes
     $routes->get('profile', 'AdminController::profile', ['as' => 'admin.profile']);
     $routes->post('update-personal-details', 'AdminController::updatePersonalDetails', ['as' => 'update-personal-details']);
     $routes->post('update-profile-picture', 'AdminController::updatePersonalPictures', ['as' => 'update-profile-picture']);
     $routes->post('change-password', 'AdminController::changePassword', ['as' => 'change-password']);
-    
+
     // Designation Management Routes
     $routes->post('designation_save', 'AdminController::designationSave', ['as' => 'designation_save']);
     $routes->get('designation', 'AdminController::designation', ['as' => 'admin.designation']);
     $routes->post('delete_designation', 'AdminController::deleteDesignation', ['as' => 'delete_designation']);
     $routes->post('update_designation', 'AdminController::updateDesignation', ['as' => 'update_designation']);
-    
+
     // Position Management Routes
     $routes->get('position', 'AdminController::position', ['as' => 'admin.position']);
     $routes->post('position_save', 'AdminController::positionSave', ['as' => 'position_save']);
     $routes->post('update_position', 'AdminController::updatePosition', ['as' => 'update_position']);
     $routes->post('delete_position', 'AdminController::deletePosition', ['as' => 'delete_position']);
-    
+
     // Employee Management Routes
     $routes->get('employee', 'AdminController::employee', ['as' => 'admin.employee']);
     $routes->post('employee_save', 'AdminController::saveEmployee', ['as' => 'employee_save']);
@@ -62,8 +65,8 @@ $routes->group('admin', ['filter' => 'cifilter:auth'], static function ($routes)
     $routes->post('delete_leave', 'AdminController::deleteLeave', ['as' => 'delete_leave']);
     $routes->post('update_leave', 'AdminController::updateLeave', ['as' => 'update_leave']);
     $routes->get('leave_application', 'AdminController::leave_application', ['as' => 'admin.leave_application']);
-    $routes->post('admin/leave_application', 'AdminController::submitLeaveApplication', ['as' => 'admin.submit_leave']);
-    
+    $routes->post('leave_application', 'AdminController::submitLeaveApplication', ['as' => 'admin.submit_leave']);
+
     // File Management Routes
     $routes->get('userlist', 'UserController::userlist', ['as' => 'user.list']);
     $routes->get('upload', 'UserController::upload', ['as' => 'user.upload']);
@@ -71,11 +74,16 @@ $routes->group('admin', ['filter' => 'cifilter:auth'], static function ($routes)
     $routes->get('download-file/(:num)', 'UserController::downloadFile/$1', ['as' => 'downloadFile']);
     $routes->get('view-file/(:num)', 'UserController::viewFile/$1', ['as' => 'viewFile']);
     $routes->get('delete-file/(:num)', 'UserController::deleteFile/$1', ['as' => 'deleteFile']);
+
+    // Notifications and User Fetching
+    $routes->get('get_pending_notifications', 'AdminController::getPendingLeaveNotifications', ['as' => 'admin.pending']);
+    $routes->post('mark-notifications-read', 'AdminController::markNotificationsRead');
+    $routes->post('users/fetch', 'UserController::fetchUsers');
 });
 
-// Public Authentication Routes
+// Public Authentication Routes - Moved Outside Admin Group
 $routes->group('', ['filter' => 'cifilter:guest'], static function ($routes) {
-    $routes->get('/', 'AuthController::loginForm', ['as' => 'admin.login.form']);
+    $routes->get('/', 'AuthController::loginForm', ['as' => 'admin.login.form']); // Login form at root '/'
     $routes->post('login', 'AuthController::loginHandler', ['as' => 'admin.login.handler']);
     $routes->get('forget-password', 'AuthController::forgotForms', ['as' => 'admin.forget.forms']);
     $routes->post('send_password-reset-link', 'AuthController::sendPasswordResetLink', ['as' => 'send_password_reset_link']);
