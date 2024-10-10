@@ -65,7 +65,7 @@ $routes->group('admin', ['filter' => 'cifilter:auth'], static function ($routes)
     $routes->post('delete_leave', 'AdminController::deleteLeave', ['as' => 'delete_leave']);
     $routes->post('update_leave', 'AdminController::updateLeave', ['as' => 'update_leave']);
     $routes->get('leave_application', 'AdminController::leave_application', ['as' => 'admin.leave_application']);
-    $routes->post('leave_application', 'AdminController::submitLeaveApplication', ['as' => 'admin.submit_leave']);
+    $routes->post('admin/leave_application', 'AdminController::submitLeaveApplication', ['as' => 'admin.submit_leave']);
 
     // File Management Routes
     $routes->get('userlist', 'UserController::userlist', ['as' => 'user.list']);
