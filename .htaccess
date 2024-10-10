@@ -4,9 +4,9 @@
     # Set the base directory for your application
     RewriteBase /
 
-    # Redirect to the login page for all requests
-    RewriteCond %{REQUEST_URI} !^/login$  # Change '/login' to your actual login path
+    # Redirect requests to the login page
+    RewriteCond %{REQUEST_URI} !^/login$  # Allow access to the login page directly
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ /login [L,R=302]  # This will redirect to the login page
+    RewriteRule ^(.*)$ /login [L,R=302]  # Redirect to the login page
 </IfModule>
